@@ -1,0 +1,64 @@
+DROP TABLE IF EXISTS ers_reimbursement;
+DROP TABLE IF EXISTS ers_users;
+DROP TABLE IF EXISTS ers_reimbursement_status;
+DROP TABLE IF EXISTS ers_reimbursement_type;
+DROP TABLE IF EXISTS ers_user_roles;
+
+CREATE TABLE ers_reimbursement_status (
+reimb_status_id NUMERIC PRIMARY KEY,
+reimb_status VARCHAR(10)
+);
+
+CREATE TABLE ers_reimbursement_type (
+reimb_type_id NUMERIC PRIMARY KEY,
+reimb_type VARCHAR(10)
+);
+
+CREATE TABLE ers_user_roles (
+ers_user_role_id NUMERIC PRIMARY KEY,
+user_role VARCHAR(10)
+);
+
+CREATE TABLE ers_users (
+ers_user_id SERIAL PRIMARY KEY,
+ers_username VARCHAR(50),
+ers_password VARCHAR(50),
+user_first_name VARCHAR(100),
+user_last_name VARCHAR(100),
+user_email VARCHAR(150),
+user_role_id NUMERIC REFERENCES ers_user_roles(ers_user_role_id)
+);
+
+CREATE TABLE ers_reimbursement (
+reimb_id SERIAL PRIMARY KEY,
+reimb_amount NUMERIC,
+reimb_submitted TIMESTAMP,
+reimb_resolved TIMESTAMP,
+reimb_description VARCHAR (250),
+reimb_receipt BYTEA,
+reimb_author NUMERIC,
+reimb_resolver NUMERIC,
+reimb_status_id NUMERIC REFERENCES ers_reimbursement_status(reimb_status_id),
+reimb_type_id NUMERIC REFERENCES ers_reimbursement_type(reimb_type_id)
+);
+
+INSERT INTO ers_reimbursement_type (reimb_type_id, reimb_type) VALUES (1, 'Lodging'), (2, 'Travel'), (3, 'Food'), (4, 'Other');
+
+INSERT INTO ers_user_roles (ers_user_role_id, user_role) VALUES (1, 'Manager'), (2, 'Employee');
+
+INSERT INTO ers_users (ers_username, ers_password, user_first_name, user_last_name, user_email, user_role_id) 
+VALUES ('cname1', 'cpass1', 'cfirst1', 'clast1', 'cname1@gmail.com', 2),
+('cname2', 'cpass2', 'cfirst2', 'clast2', 'cname2@gmail.com', 2),
+('cname3', 'cpass3', 'cfirst3', 'clast3', 'cname3@gmail.com', 2),
+('cname4', 'cpass4', 'cfirst4', 'clast4', 'cname4@gmail.com', 2),
+('cname5', 'cpass5', 'cfirst5', 'clast5', 'cname5@gmail.com', 2),
+('cname6', 'cpass6', 'cfirst6', 'clast6', 'cname6@gmail.com', 2),
+('mname1', 'mpass1', 'mfirst1', 'mlast1', 'mname1@gmail.com', 2),
+('mname2', 'mpass2', 'mfirst2', 'mlast2', 'mname2@gmail.com', 2);
+
+
+
+
+
+
+

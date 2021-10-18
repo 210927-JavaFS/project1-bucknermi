@@ -1,4 +1,4 @@
-package com.revature.dao.models;
+package com.revature.dao.model;
 
 public class ERS_USER {
 	private int user_id;

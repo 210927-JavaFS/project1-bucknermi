@@ -1,6 +1,14 @@
 package com.revature.dao.model;
 
-public class ERSUser {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class ErsUser {
+	
+	@Id
 	private int user_id;
 	private String username;
 	private String password;
@@ -9,7 +17,7 @@ public class ERSUser {
 	private String email;
 	private int user_role_id;
 	
-	public ERSUser(int user_id, String username, String password, String first_name, String last_name, String email,
+	public ErsUser(int user_id, String username, String password, String first_name, String last_name, String email,
 			int user_role_id) {
 		super();
 		this.user_id = user_id;
@@ -20,6 +28,32 @@ public class ERSUser {
 		this.email = email;
 		this.user_role_id = user_role_id;
 	}
+	
+
+	public ErsUser(String username, String password, String first_name, String last_name, String email,
+			int user_role_id) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.first_name = first_name;
+		this.last_name = last_name;
+		this.email = email;
+		this.user_role_id = user_role_id;
+	}
+	
+
+
+	public ErsUser(int user_id) {
+		super();
+		this.user_id = user_id;
+	}
+
+	
+
+	public ErsUser() {
+		super();
+	}
+
 
 	public int getUser_id() {
 		return user_id;
@@ -99,7 +133,7 @@ public class ERSUser {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ERSUser other = (ERSUser) obj;
+		ErsUser other = (ErsUser) obj;
 		if (email == null) {
 			if (other.email != null)
 				return false;

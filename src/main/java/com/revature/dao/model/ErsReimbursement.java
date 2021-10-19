@@ -1,16 +1,16 @@
 package com.revature.dao.model;
 
-public class ERSReimbursement {
+public class ErsReimbursement {
 	
 	private int reimbursement_id;
 	private int type_id;
-	private ERSUser author;
-	private ERSUser resolver;
+	private ErsUser author;
+	private ErsUser resolver;
 	private double amount;
 	private String description;
 	private boolean resolved;
 	
-	public ERSReimbursement(int reimbursement_id, int type_id, ERSUser author, ERSUser resolver, double amount,
+	public ErsReimbursement(int reimbursement_id, int type_id, ErsUser author, ErsUser resolver, double amount,
 			String description, boolean resolved) {
 		super();
 		this.reimbursement_id = reimbursement_id;
@@ -22,7 +22,7 @@ public class ERSReimbursement {
 		this.resolved = resolved;
 	}
 
-	public ERSReimbursement(int type_id, ERSUser author, ERSUser resolver, double amount, String description,
+	public ErsReimbursement(int type_id, ErsUser author, ErsUser resolver, double amount, String description,
 			boolean resolved) {
 		super();
 		this.type_id = type_id;
@@ -33,7 +33,7 @@ public class ERSReimbursement {
 		this.resolved = resolved;
 	}
 
-	public ERSReimbursement() {
+	public ErsReimbursement() {
 		super();
 	}
 
@@ -53,19 +53,19 @@ public class ERSReimbursement {
 		this.type_id = type_id;
 	}
 
-	public ERSUser getAuthor() {
+	public ErsUser getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(ERSUser author) {
+	public void setAuthor(ErsUser author) {
 		this.author = author;
 	}
 
-	public ERSUser getResolver() {
+	public ErsUser getResolver() {
 		return resolver;
 	}
 
-	public void setResolver(ERSUser resolver) {
+	public void setResolver(ErsUser resolver) {
 		this.resolver = resolver;
 	}
 
@@ -117,7 +117,7 @@ public class ERSReimbursement {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ERSReimbursement other = (ERSReimbursement) obj;
+		ErsReimbursement other = (ErsReimbursement) obj;
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
 		if (author == null) {

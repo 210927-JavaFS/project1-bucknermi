@@ -1,6 +1,6 @@
 package com.revature.dao.model;
 
-public class ERS_USER {
+public class ERSUser {
 	private int user_id;
 	private String username;
 	private String password;
@@ -9,7 +9,7 @@ public class ERS_USER {
 	private String email;
 	private int user_role_id;
 	
-	public ERS_USER(int user_id, String username, String password, String first_name, String last_name, String email,
+	public ERSUser(int user_id, String username, String password, String first_name, String last_name, String email,
 			int user_role_id) {
 		super();
 		this.user_id = user_id;
@@ -99,7 +99,7 @@ public class ERS_USER {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ERS_USER other = (ERS_USER) obj;
+		ERSUser other = (ERSUser) obj;
 		if (email == null) {
 			if (other.email != null)
 				return false;

@@ -7,11 +7,11 @@ import com.revature.dao.model.ErsUser;
 
 public interface ErsReimDao {
 	
-	public void addReim(ErsReim er);
+	public boolean addReim(ErsReim er);
 	
-	public void updateReim(ErsReim er);
+	public boolean updateReim(ErsReim er);
 	
-	public void deleteReim(ErsReim er);
+	public boolean deleteReim(ErsReim er);
 	
 	public List<ErsReim> getAll();
 	
@@ -20,10 +20,5 @@ public interface ErsReimDao {
 	public List<ErsReim> getAllByTrue();
 	
 	public List <ErsReim> getAllByUser(ErsUser eu);
-	
-	
-	
-	
-	
-	
+		
 }

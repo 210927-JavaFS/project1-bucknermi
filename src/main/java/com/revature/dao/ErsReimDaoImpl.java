@@ -2,6 +2,7 @@ package com.revature.dao;
 
 import java.util.List;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -12,32 +13,50 @@ import com.revature.util.ConfigUtil;
 public class ErsReimDaoImpl implements ErsReimDao {
 
 	@Override
-	public void addReim(ErsReim er) {
-		Session session = ConfigUtil.getSession();
-		Transaction tx;
-		tx = session.beginTransaction();
-		session.save(er);
-		tx.commit();
+	public boolean addReim(ErsReim er) {
+		try {
+			Session session = ConfigUtil.getSession();
+			Transaction tx;
+			tx = session.beginTransaction();
+			session.save(er);
+			tx.commit();
+			return true;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
 
 	}
 
 	@Override
-	public void updateReim(ErsReim er) {
-		Session session = ConfigUtil.getSession();
-		Transaction tx;
-		tx = session.beginTransaction();
-		session.merge(er);
-		tx.commit();
+	public boolean updateReim(ErsReim er) {
+		try {
+			Session session = ConfigUtil.getSession();
+			Transaction tx;
+			tx = session.beginTransaction();
+			session.merge(er);
+			tx.commit();
+			return true;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
 
 	}
 
 	@Override
-	public void deleteReim(ErsReim er) {
-		Session session = ConfigUtil.getSession();
-		Transaction tx;
-		tx = session.beginTransaction();
-		session.delete(er);
-		tx.commit();
+	public boolean deleteReim(ErsReim er) {
+		try {
+			Session session = ConfigUtil.getSession();
+			Transaction tx;
+			tx = session.beginTransaction();
+			session.delete(er);
+			tx.commit();
+			return true;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+			return false;
+		}
 
 	}
 
@@ -66,7 +85,7 @@ public class ErsReimDaoImpl implements ErsReimDao {
 	public List<ErsReim> getAllByUser(ErsUser eu) {
 		Session session = ConfigUtil.getSession();
 		int id = eu.getUser_id();
-		List<ErsReim> reims = session.createQuery("From ErsReim E where user_id ="+id).list();
+		List<ErsReim> reims = session.createQuery("From ErsReim E where user_id =" + id).list();
 		return reims;
 	}
 

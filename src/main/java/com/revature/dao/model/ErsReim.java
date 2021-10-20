@@ -1,7 +1,10 @@
 package com.revature.dao.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,103 +12,142 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+
+	
+
+
 @Entity
 public class ErsReim {
+	public enum ReimbursementType {
+	LODGING, TRAVEL, FOOD, OTHER}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int reimbursement_id;
-	private int type_id;
+	private int reimbursementId;
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="author_id")
+	@JoinColumn(name="authorId")
 	private ErsUser author;
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="resolver_id")
+	@JoinColumn(name="resolverId")
 	private ErsUser resolver;
+	@Enumerated(EnumType.STRING)
+	@Column(length=8)
+	private ReimbursementType reimbursementType;
 	private double amount;
 	private String description;
 	private boolean resolved;
+	private boolean accepted;
 	
-	public ErsReim(int reimbursement_id, int type_id, ErsUser author, ErsUser resolver, double amount,
-			String description, boolean resolved) {
+	public ErsReim(int reimbursementId, ErsUser author, ErsUser resolver, ReimbursementType reimbursementType,
+			double amount, String description, boolean resolved, boolean accepted) {
 		super();
-		this.reimbursement_id = reimbursement_id;
-		this.type_id = type_id;
+		this.reimbursementId = reimbursementId;
 		this.author = author;
 		this.resolver = resolver;
+		this.reimbursementType = reimbursementType;
 		this.amount = amount;
 		this.description = description;
 		this.resolved = resolved;
+		this.accepted = accepted;
 	}
-	public ErsReim(int type_id, ErsUser author, ErsUser resolver, double amount, String description, boolean resolved) {
+
+	public ErsReim(ErsUser author, ErsUser resolver, ReimbursementType reimbursementType, double amount,
+			String description, boolean resolved, boolean accepted) {
 		super();
-		this.type_id = type_id;
 		this.author = author;
 		this.resolver = resolver;
+		this.reimbursementType = reimbursementType;
 		this.amount = amount;
 		this.description = description;
 		this.resolved = resolved;
+		this.accepted = accepted;
 	}
+
 	public ErsReim() {
 		super();
 	}
-	public int getReimbursement_id() {
-		return reimbursement_id;
+
+	public int getReimbursementId() {
+		return reimbursementId;
 	}
-	public void setReimbursement_id(int reimbursement_id) {
-		this.reimbursement_id = reimbursement_id;
+
+	public void setReimbursementId(int reimbursementId) {
+		this.reimbursementId = reimbursementId;
 	}
-	public int getType_id() {
-		return type_id;
-	}
-	public void setType_id(int type_id) {
-		this.type_id = type_id;
-	}
+
 	public ErsUser getAuthor() {
 		return author;
 	}
+
 	public void setAuthor(ErsUser author) {
 		this.author = author;
 	}
+
 	public ErsUser getResolver() {
 		return resolver;
 	}
+
 	public void setResolver(ErsUser resolver) {
 		this.resolver = resolver;
 	}
+
+	public ReimbursementType getReimbursementType() {
+		return reimbursementType;
+	}
+
+	public void setReimbursementType(ReimbursementType reimbursementType) {
+		this.reimbursementType = reimbursementType;
+	}
+
 	public double getAmount() {
 		return amount;
 	}
+
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public boolean isResolved() {
 		return resolved;
 	}
+
 	public void setResolved(boolean resolved) {
 		this.resolved = resolved;
 	}
+
+	public boolean isAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(boolean accepted) {
+		this.accepted = accepted;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + (accepted ? 1231 : 1237);
 		long temp;
 		temp = Double.doubleToLongBits(amount);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + reimbursement_id;
+		result = prime * result + reimbursementId;
+		result = prime * result + ((reimbursementType == null) ? 0 : reimbursementType.hashCode());
 		result = prime * result + (resolved ? 1231 : 1237);
 		result = prime * result + ((resolver == null) ? 0 : resolver.hashCode());
-		result = prime * result + type_id;
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -115,6 +157,8 @@ public class ErsReim {
 		if (getClass() != obj.getClass())
 			return false;
 		ErsReim other = (ErsReim) obj;
+		if (accepted != other.accepted)
+			return false;
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
 		if (author == null) {
@@ -127,7 +171,9 @@ public class ErsReim {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (reimbursement_id != other.reimbursement_id)
+		if (reimbursementId != other.reimbursementId)
+			return false;
+		if (reimbursementType != other.reimbursementType)
 			return false;
 		if (resolved != other.resolved)
 			return false;
@@ -136,16 +182,17 @@ public class ErsReim {
 				return false;
 		} else if (!resolver.equals(other.resolver))
 			return false;
-		if (type_id != other.type_id)
-			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
-		return "ErsReim [reimbursement_id=" + reimbursement_id + ", type_id=" + type_id + ", author=" + author
-				+ ", resolver=" + resolver + ", amount=" + amount + ", description=" + description + ", resolved="
-				+ resolved + "]";
+		return "ErsReim [reimbursementId=" + reimbursementId + ", author=" + author + ", resolver=" + resolver
+				+ ", reimbursementType=" + reimbursementType + ", amount=" + amount + ", description=" + description
+				+ ", resolved=" + resolved + ", accepted=" + accepted + "]";
 	}
+	
+	
 	
 	
 

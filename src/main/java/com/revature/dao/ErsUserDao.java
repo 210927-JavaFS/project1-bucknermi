@@ -9,5 +9,7 @@ public interface ErsUserDao {
 	public int accountByLogin(String username, String password);
 	
 	public void addUser(ErsUser eu);
+	
+	public boolean testLogin(String username, String password);
 
 }

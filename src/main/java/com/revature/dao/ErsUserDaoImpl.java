@@ -25,16 +25,18 @@ public class ErsUserDaoImpl implements ErsUserDao {
 	public void addUser(ErsUser eu) {
 		Session session = ConfigUtil.getSession();
 		Transaction tx;
-		try {
+		
 			tx = session.beginTransaction();
 			session.save(eu);
 			tx.commit();
-		}
+		
 
-		finally {
-			session.close();
 
-		}
+	}
 
+	@Override
+	public boolean testLogin(String username, String password) {
+		return false;
+		
 	}
 }

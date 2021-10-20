@@ -17,7 +17,7 @@ public class Driver {
 		ErsUser eu = new ErsUser();
 		ErsReim er1 = new ErsReim(1, eu, eu, 12, "hehe", false);
 		ErsReimDao erd = new ErsReimDaoImpl();
-		erd.addReimbursement(er1);
+		erd.addReim(er1);
 		List<ErsReim> reims = erd.getAllByFalse();
 		for(ErsReim er : reims) {
 			System.out.println(er.toString());

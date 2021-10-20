@@ -1,16 +1,32 @@
 package com.revature.dao.model;
 
-public class ErsReimbursement {
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class ErsReim {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int reimbursement_id;
 	private int type_id;
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="username")
 	private ErsUser author;
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="username")
 	private ErsUser resolver;
 	private double amount;
 	private String description;
 	private boolean resolved;
 	
-	public ErsReimbursement(int reimbursement_id, int type_id, ErsUser author, ErsUser resolver, double amount,
+	public ErsReim(int reimbursement_id, int type_id, ErsUser author, ErsUser resolver, double amount,
 			String description, boolean resolved) {
 		super();
 		this.reimbursement_id = reimbursement_id;
@@ -21,9 +37,7 @@ public class ErsReimbursement {
 		this.description = description;
 		this.resolved = resolved;
 	}
-
-	public ErsReimbursement(int type_id, ErsUser author, ErsUser resolver, double amount, String description,
-			boolean resolved) {
+	public ErsReim(int type_id, ErsUser author, ErsUser resolver, double amount, String description, boolean resolved) {
 		super();
 		this.type_id = type_id;
 		this.author = author;
@@ -32,67 +46,51 @@ public class ErsReimbursement {
 		this.description = description;
 		this.resolved = resolved;
 	}
-
-	public ErsReimbursement() {
+	public ErsReim() {
 		super();
 	}
-
 	public int getReimbursement_id() {
 		return reimbursement_id;
 	}
-
 	public void setReimbursement_id(int reimbursement_id) {
 		this.reimbursement_id = reimbursement_id;
 	}
-
 	public int getType_id() {
 		return type_id;
 	}
-
 	public void setType_id(int type_id) {
 		this.type_id = type_id;
 	}
-
 	public ErsUser getAuthor() {
 		return author;
 	}
-
 	public void setAuthor(ErsUser author) {
 		this.author = author;
 	}
-
 	public ErsUser getResolver() {
 		return resolver;
 	}
-
 	public void setResolver(ErsUser resolver) {
 		this.resolver = resolver;
 	}
-
 	public double getAmount() {
 		return amount;
 	}
-
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
 	public String getDescription() {
 		return description;
 	}
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 	public boolean isResolved() {
 		return resolved;
 	}
-
 	public void setResolved(boolean resolved) {
 		this.resolved = resolved;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -108,7 +106,6 @@ public class ErsReimbursement {
 		result = prime * result + type_id;
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -117,7 +114,7 @@ public class ErsReimbursement {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ErsReimbursement other = (ErsReimbursement) obj;
+		ErsReim other = (ErsReim) obj;
 		if (Double.doubleToLongBits(amount) != Double.doubleToLongBits(other.amount))
 			return false;
 		if (author == null) {
@@ -143,13 +140,16 @@ public class ErsReimbursement {
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
-		return "ERSReimbursement [reimbursement_id=" + reimbursement_id + ", type_id=" + type_id + ", author=" + author
+		return "ErsReim [reimbursement_id=" + reimbursement_id + ", type_id=" + type_id + ", author=" + author
 				+ ", resolver=" + resolver + ", amount=" + amount + ", description=" + description + ", resolved="
 				+ resolved + "]";
 	}
+	
+	
+
+	}
 
 	
-}
+

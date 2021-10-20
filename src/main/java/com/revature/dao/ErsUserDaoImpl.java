@@ -9,20 +9,21 @@ import org.slf4j.LoggerFactory;
 
 import com.revature.dao.model.ErsUser;
 
-import com.revature.util.ConfigurationUtil;
+import com.revature.util.ConfigUtil;
 
 public class ErsUserDaoImpl implements ErsUserDao {
 	private static Logger log = LoggerFactory.getLogger(ErsUserDaoImpl.class);
 
 	@Override
-	public List<ErsUser> accountByLogin(String username, String password) {
-
-		return null;
+	public int accountByLogin(String username, String password) {
+		Session session = ConfigUtil.getSession();
+		
+		return 0;
 	}
 
 	@Override
 	public void addUser(ErsUser eu) {
-		Session session = ConfigurationUtil.getSession();
+		Session session = ConfigUtil.getSession();
 		Transaction tx;
 		try {
 			tx = session.beginTransaction();

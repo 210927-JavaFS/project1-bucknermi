@@ -17,10 +17,10 @@ public class ErsReim {
 	private int reimbursement_id;
 	private int type_id;
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="username")
+	@JoinColumn(name="author_id")
 	private ErsUser author;
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	@JoinColumn(name="username")
+	@JoinColumn(name="resolver_id")
 	private ErsUser resolver;
 	private double amount;
 	private String description;

@@ -10,6 +10,9 @@ public interface ErsReimDao {
 	
 	public List<ErsReim> getAll();
 	
+	public List<ErsReim> getAllByFalse();
+	
 	public List<ErsReim> getAllByTrue();
-
+	
+	
 }

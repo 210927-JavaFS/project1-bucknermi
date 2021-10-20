@@ -21,7 +21,7 @@ public class ErsReimDaoImpl implements ErsReimDao {
 		}
 
 		finally {
-			session.close();
+			
 
 		}
 
@@ -35,14 +35,14 @@ public class ErsReimDaoImpl implements ErsReimDao {
 	}
 
 	@Override
-	public List<ErsReim> getAllByTrue() {
+	public List<ErsReim> getAllByFalse() {
 		Session session = ConfigUtil.getSession();
 		List<ErsReim> reims= session.createQuery("FROM ErsReim E WHERE resolved = FALSE").list();
 		return reims;
 	}
 
 	@Override
-	public List<ErsReim> getAllByFalse() {
+	public List<ErsReim> getAllByTrue() {
 		// TODO Auto-generated method stub
 		return null;
 	}

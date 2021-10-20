@@ -6,12 +6,11 @@ import com.revature.dao.model.ErsUser;
 
 public class Driver {
 	
-	private static ErsUserDao ed = new ErsUserDaoImpl();
+	
 	
 	public static void main(String[] args) {
 		
-		ErsUser eu = new ErsUser(1);
-		ed.addUser(eu);
+		
 	}
 
 }

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 public class ErsUser {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int user_id;
 	private String username;
 	private String password;

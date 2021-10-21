@@ -20,5 +20,7 @@ public interface ErsReimDao {
 	public List<ErsReim> getAllByTrue();
 	
 	public List <ErsReim> getAllByUserId(int id);
+	
+	public ErsReim getReimById(int id);
 		
 }

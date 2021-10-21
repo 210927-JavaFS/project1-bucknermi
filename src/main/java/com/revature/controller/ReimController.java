@@ -64,6 +64,20 @@ public class ReimController implements Controller {
 			ctx.status(406);
 		}
 	};
+	
+	public Handler deleteReimsById = (ctx) -> {
+		String idString = ctx.pathParam("reimbursementId");
+		
+		try {
+			int id = Integer.parseInt(idString);
+			ErsReim er = rs.GetReimByIdServ(id);
+			rs.deleteReimServ(er);
+			ctx.status(201);
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+			ctx.status(406);
+	}
+	};
 
 	@Override
 	public void addRoutes(Javalin app) {
@@ -73,7 +87,7 @@ public class ReimController implements Controller {
 		app.post("ErsReim", this.addReims);
 		app.put("/ErsReim", this.updateReims);
 		app.get("ErsReim/:userId", this.getReimsById);
-
+		app.delete("ErsReim/:reimbursementId", this.deleteReimsById);
 	}
 
 }

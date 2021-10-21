@@ -88,4 +88,10 @@ public class ErsReimDaoImpl implements ErsReimDao {
 		return reims;
 	}
 
+	@Override
+	public ErsReim getReimById(int reimbursementId) {
+		Session session = ConfigUtil.getSession();
+		return session.get(ErsReim.class, reimbursementId);
+	}
+
 }

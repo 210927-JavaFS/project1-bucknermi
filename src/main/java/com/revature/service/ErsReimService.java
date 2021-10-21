@@ -39,4 +39,8 @@ public class ErsReimService {
 		return erd.getAllByUserId(id);
 
 	}
+	
+	public ErsReim GetReimByIdServ(int id) {
+		return erd.getReimById(id);
+	}
 }

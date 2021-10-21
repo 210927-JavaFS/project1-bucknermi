@@ -82,10 +82,9 @@ public class ErsReimDaoImpl implements ErsReimDao {
 	}
 
 	@Override
-	public List<ErsReim> getAllByUser(ErsUser eu) {
+	public List<ErsReim> getAllByUserId(int id) {
 		Session session = ConfigUtil.getSession();
-		int id = eu.getUser_id();
-		List<ErsReim> reims = session.createQuery("From ErsReim E where user_id =" + id).list();
+		List<ErsReim> reims = session.createQuery("From ErsReim E where authorId =" + id).list();
 		return reims;
 	}
 

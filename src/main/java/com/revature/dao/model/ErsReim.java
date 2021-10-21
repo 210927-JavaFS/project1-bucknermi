@@ -13,9 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 
-	
-
-
 @Entity
 public class ErsReim {
 	public enum ReimbursementType {
@@ -24,10 +21,10 @@ public class ErsReim {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int reimbursementId;
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="authorId")
 	private ErsUser author;
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="resolverId")
 	private ErsUser resolver;
 	@Enumerated(EnumType.STRING)

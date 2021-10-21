@@ -8,6 +8,7 @@ import com.revature.dao.ErsUserDao;
 import com.revature.dao.ErsUserDaoImpl;
 import com.revature.dao.model.ErsReim;
 import com.revature.dao.model.ErsUser;
+import com.revature.dao.model.ErsReim.ReimbursementType;
 
 public class Driver {
 	
@@ -15,7 +16,7 @@ public class Driver {
 	
 	public static void main(String[] args) {
 		ErsUser eu = new ErsUser();
-		ErsReim er1 = new ErsReim(1, eu, eu, 12, "hehe", false);
+		ErsReim er1 = new ErsReim(1, eu, eu, ReimbursementType.FOOD, 12, "hehe", false, false);
 		ErsReimDao erd = new ErsReimDaoImpl();
 		erd.addReim(er1);
 		List<ErsReim> reims = erd.getAllByFalse();

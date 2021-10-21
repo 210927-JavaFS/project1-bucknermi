@@ -11,16 +11,16 @@ public class ErsReimService {
 
 	private ErsReimDao erd = new ErsReimDaoImpl();
 
-	public void addReimServ(ErsReim er) {
-		erd.addReim(er);
+	public boolean addReimServ(ErsReim er) {
+		return erd.addReim(er);
 	}
 
-	public void updateReimServ(ErsReim er) {
-		erd.updateReim(er);
+	public boolean updateReimServ(ErsReim er) {
+		return erd.updateReim(er);
 	}
 
-	public void deleteReimServ(ErsReim er) {
-		erd.deleteReim(er);
+	public boolean deleteReimServ(ErsReim er) {
+		return erd.deleteReim(er);
 	}
 
 	public List<ErsReim> getAllServ() {
@@ -35,8 +35,8 @@ public class ErsReimService {
 		return erd.getAllByTrue();
 	}
 
-	public List<ErsReim> getAllByUserServ(ErsUser eu) {
-		return erd.getAllByUser(eu);
+	public List<ErsReim> getAllByUserIdServ(int id) {
+		return erd.getAllByUserId(id);
 
 	}
 }

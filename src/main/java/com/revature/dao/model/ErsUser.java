@@ -8,6 +8,8 @@ import javax.persistence.Id;
 
 @Entity
 public class ErsUser {
+	public enum UserRole {
+		EMPLOYEE, MANAGER}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,48 +17,37 @@ public class ErsUser {
 	@Column(unique = true)
 	private String username;
 	private String password;
-	private String first_name;
-	private String last_name;
+	private String firstName;
+	private String lastName;
 	private String email;
-	private int user_role_id;
+	private UserRole UserRole;
 	
-	public ErsUser(int user_id, String username, String password, String first_name, String last_name, String email,
-			int user_role_id) {
+	public ErsUser(int user_id, String username, String password, String firstName, String lastName, String email,
+			com.revature.dao.model.ErsUser.UserRole userRole) {
 		super();
 		this.user_id = user_id;
 		this.username = username;
 		this.password = password;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
-		this.user_role_id = user_role_id;
+		UserRole = userRole;
 	}
-	
 
-	public ErsUser(String username, String password, String first_name, String last_name, String email,
-			int user_role_id) {
+	public ErsUser(String username, String password, String firstName, String lastName, String email,
+			com.revature.dao.model.ErsUser.UserRole userRole) {
 		super();
 		this.username = username;
 		this.password = password;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
-		this.user_role_id = user_role_id;
+		UserRole = userRole;
 	}
-	
-
-
-	public ErsUser(int user_id) {
-		super();
-		this.user_id = user_id;
-	}
-
-	
 
 	public ErsUser() {
 		super();
 	}
-
 
 	public int getUser_id() {
 		return user_id;
@@ -82,20 +73,20 @@ public class ErsUser {
 		this.password = password;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -106,24 +97,24 @@ public class ErsUser {
 		this.email = email;
 	}
 
-	public int getUser_role_id() {
-		return user_role_id;
+	public UserRole getUserRole() {
+		return UserRole;
 	}
 
-	public void setUser_role_id(int user_role_id) {
-		this.user_role_id = user_role_id;
+	public void setUserRole(UserRole userRole) {
+		UserRole = userRole;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((UserRole == null) ? 0 : UserRole.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((first_name == null) ? 0 : first_name.hashCode());
-		result = prime * result + ((last_name == null) ? 0 : last_name.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + user_id;
-		result = prime * result + user_role_id;
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -137,20 +128,22 @@ public class ErsUser {
 		if (getClass() != obj.getClass())
 			return false;
 		ErsUser other = (ErsUser) obj;
+		if (UserRole != other.UserRole)
+			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (first_name == null) {
-			if (other.first_name != null)
+		if (firstName == null) {
+			if (other.firstName != null)
 				return false;
-		} else if (!first_name.equals(other.first_name))
+		} else if (!firstName.equals(other.firstName))
 			return false;
-		if (last_name == null) {
-			if (other.last_name != null)
+		if (lastName == null) {
+			if (other.lastName != null)
 				return false;
-		} else if (!last_name.equals(other.last_name))
+		} else if (!lastName.equals(other.lastName))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -158,8 +151,6 @@ public class ErsUser {
 		} else if (!password.equals(other.password))
 			return false;
 		if (user_id != other.user_id)
-			return false;
-		if (user_role_id != other.user_role_id)
 			return false;
 		if (username == null) {
 			if (other.username != null)
@@ -171,9 +162,10 @@ public class ErsUser {
 
 	@Override
 	public String toString() {
-		return "ERS_USER [user_id=" + user_id + ", username=" + username + ", password=" + password + ", first_name="
-				+ first_name + ", last_name=" + last_name + ", email=" + email + ", user_role_id=" + user_role_id + "]";
+		return "ErsUser [user_id=" + user_id + ", username=" + username + ", password=" + password + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", email=" + email + ", UserRole=" + UserRole + "]";
 	}
+	
 	
 	
 

@@ -14,7 +14,7 @@ import com.revature.dao.model.ErsUser;
 import com.revature.util.ConfigUtil;
 
 public class ErsUserDaoImpl implements ErsUserDao {
-	private static Logger log = LoggerFactory.getLogger(ErsUserDaoImpl.class);
+
 
 	@Override
 	public ErsUser accountByLogin(String username) {

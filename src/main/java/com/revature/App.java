@@ -1,6 +1,7 @@
 package com.revature;
 
 import com.revature.controller.Controller;
+import com.revature.controller.ErsUserController;
 import com.revature.controller.ReimController;
 
 import io.javalin.Javalin;
@@ -11,7 +12,7 @@ public class App {
 	public static void main(String[] args) {
 		
 		app = Javalin.create();
-		configure(new ReimController());
+		configure(new ReimController(), new ErsUserController());
 		app.start();
 	}
 	

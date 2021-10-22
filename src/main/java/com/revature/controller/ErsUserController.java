@@ -1,6 +1,7 @@
 package com.revature.controller;
 
 import com.revature.dao.model.ErsUser;
+import com.revature.dao.model.UserDTO;
 import com.revature.service.ErsUserService;
 
 import io.javalin.Javalin;
@@ -19,10 +20,22 @@ public class ErsUserController implements Controller{
 		}
 	};
 	
+	public Handler  loginAttempt = (ctx) -> {
+		UserDTO ud = ctx.bodyAsClass(UserDTO.class);
+			if(eus.loginServ(ud)) {
+				ctx.req.getSession();
+				ctx.status(200);
+				}
+			else {
+				ctx.req.getSession().invalidate();
+				ctx.status(400);
+			}
+	};
+	
 	@Override
 	public void addRoutes(Javalin app) {
 		app.post("/ErsUser", this.addUser);
-		
+		app.post("/Login", this.loginAttempt);
 	}
 
 }

@@ -19,7 +19,14 @@ public class ErsUserDaoImpl implements ErsUserDao {
 	@Override
 	public ErsUser accountByLogin(String username) {
 		Session session = ConfigUtil.getSession();
-		return session.get(ErsUser.class, username);
+		List<ErsUser> eus = session.createQuery("FROM ErsUser E WHERE username = '"+username+ "'").list();
+		if(eus.size() == 0) {
+			ErsUser eu1 = new ErsUser();
+					return eu1;
+		}else {
+		ErsUser eu = eus.get(0);
+		return eu;}
+		
 
 	}
 
@@ -40,11 +47,6 @@ public class ErsUserDaoImpl implements ErsUserDao {
 
 	}
 
-	@Override
-	public List<ErsUser> testLogin(String username, String password) {
-		Session session = ConfigUtil.getSession();
-		List<ErsUser> eus = session.createQuery("FROM ErsUser E WHERE E.username ="+username+ "and E.password =" +password).list();
-		return eus;
 
-	}
+	
 }

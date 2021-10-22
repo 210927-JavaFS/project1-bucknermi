@@ -5,13 +5,16 @@ import com.revature.controller.ErsUserController;
 import com.revature.controller.ReimController;
 
 import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 
 public class App {
 	
 	private static Javalin app;
 	public static void main(String[] args) {
 		
-		app = Javalin.create();
+		app = Javalin.create((config)->{
+			config.addStaticFiles("/Static", Location.CLASSPATH);
+		});
 		configure(new ReimController(), new ErsUserController());
 		app.start();
 	}

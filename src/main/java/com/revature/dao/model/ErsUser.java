@@ -2,6 +2,8 @@ package com.revature.dao.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +23,8 @@ public class ErsUser {
 	private String lastName;
 	@Column(unique = true)
 	private String email;
-	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "userRole")
 	private UserRole UserRole;
 	
 	public ErsUser(int user_id, String username, String password, String firstName, String lastName, String email,

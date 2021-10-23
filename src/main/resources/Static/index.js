@@ -7,21 +7,19 @@ let employeeLevel = document.getElementById('radio1');
 let managerLevel = document.getElementById('radio2');
 
 login.onclick = loginToApp;
-pastTickets.onclick = viewPastTickets;
-logout.onclick = logoutOfProgram;
 
 async function loginToApp() {
-  if (managerLevel.checked)
-    let user = {
+  if (managerLevel.checked) {
+    var user = {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
-      UserRole: "MANAGER"
-    }
+      level: "MANAGER"
+    }}
   else if (employeeLevel.checked) {
-    let user = {
+    var user = {
       username: document.getElementById("username").value,
       password: document.getElementById("password").value,
-      UserRole: "EMPLOYEE"
+      level: "EMPLOYEE"
     }
   }
   else {
@@ -76,8 +74,10 @@ async function loginToApp() {
       button5.id = "logout";
       button5.innerHTML = "2. Logout";
       document.getElementsByClassName('container')[0].appendChild(h3);
-      document.getElementsByClassName('container')[1].appendChild(button4);
-      document.getElementsByClassName('container')[2].appendChild(button5);
+      document.getElementsByClassName('container')[0].appendChild(button4);
+      document.getElementsByClassName('container')[0].appendChild(button5);
+      let logout = document.getElementById('logout');
+
     }
   }
 
@@ -90,8 +90,10 @@ async function loginToApp() {
 }
   }
 
-  function logoutOfProgram {
-    
+  function logoutOfProgram() {
+    document.getElementsByClassName("container")[0].innerHTML = '';
+    location.reload;
+    return false;
   }
 
 

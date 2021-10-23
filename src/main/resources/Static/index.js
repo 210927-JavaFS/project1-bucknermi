@@ -21,6 +21,7 @@ for (let i = 0; i < reimsTableHeaderArr.length; i++) {
   th.innerText = reimsTableHeaderArr[i];
   reimsTable.appendChild(th);
 }
+var reimsTableBody = document.createElement('tbody');
 
 //Manager main menu elements
 let viewRequests = document.createElement('button');
@@ -32,11 +33,14 @@ filterByPending.innerText = 'Pending requests';
 let filterByResolved = document.createElement('button');
 filterByResolved.innerHTML = 'Resolved requests';
 let selectReimbursement = document.createElement('input');
-selectReimbursement.innerText = 'Enter the id of the request you would like to view';
+let reimbursementId = document.getElementById('selectReimbursementId');
+let selectReimburesementText = document.createElement('h4');
+selectReimburesementText.innerText = 'Enter the Id of the reimbursement you would like to view/edit';
+let selectButton = document.createElement('button');
+selectButton.innerText = 'Select reimbursement'
 
 //Manager reimbursements menu elements
-let allReims = document.createElement('tbody');
-allReims.innerHTML = '';
+
 
 //Login page functions
 logout.onclick = logout.onclick = function () {
@@ -80,24 +84,7 @@ async function loginToApp() {
     console.log("success");
     if (employeeLevel.checked) {
       document.getElementsByClassName("container")[0].innerHTML = '';
-      const h3 = document.createElement("h3");
-      h3.innerText = "Welcome to your home menu. Please select an option from below:";
-      const button1 = document.createElement("button")
-      button1.type = "button";
-      button1.id = "pastTickets";
-      button1.innerHTML = "1. View past tickets";
-      const button2 = document.createElement("button")
-      button2.type = "button";
-      button2.id = "reimbursementRequest";
-      button2.innerHTML = "2. Create reimbursement request";
-      const button3 = document.createElement("button")
-      button3.type = "button";
-      button3.id = "logout";
-      button3.innerHTML = "3. Logout";
-      document.getElementsByClassName('container')[0].appendChild(h3);
-      document.getElementsByClassName('container')[1].appendChild(button1);
-      document.getElementsByClassName('container')[2].appendChild(button2);
-      document.getElementsByClassName('container')[3].appendChild(button3);
+    
     }
     if (managerLevel.checked) {
       document.getElementsByClassName("container")[0].innerHTML = '';
@@ -124,30 +111,47 @@ function logoutOfProgram() {
   return false;
 }
 
+function failure() {
+  console.log("failure");
+    let para = document.createElement("p");
+    para.setAttribute("style", "color:red")
+    para.innerText = "Attempt failed"
+    document.getElementsByClassName("container")[0].appendChild(para);
+
+}
+
 //Manager menu functions
+function managerReimMenu(data) {
+  document.getElementsByClassName("container")[0].innerHTML = '';
+  document.getElementsByClassName("container")[0].appendChild(reimsTable);
+    populateAllReimsTable(data);
+    document.getElementsByClassName('container')[0].appendChild(filterBy);
+    document.getElementsByClassName('container')[0].appendChild(filterByPending);
+    document.getElementsByClassName('container')[0].appendChild(filterByResolved);
+    document.getElementsByClassName('container')[0].appendChild(selectReimburesementText);
+    document.getElementsByClassName('container')[0].appendChild(selectReimbursement);
+    document.getElementsByClassName('container')[0].appendChild(selectButton);
+    document.getElementsByClassName('container')[0].appendChild(logout);
+}
 viewRequests.onclick = async function () {
   let response = await fetch(URL + "ErsReim", {
     method: "GET",
     credentials: "include"
   });
   if (response.status == 200) {
-    document.getElementsByClassName("container")[0].innerHTML = '';
-    document.getElementsByClassName("container")[0].appendChild(reimsTable);
-    document.getElementsByClassName('container')[0].appendChild(filterBy);
-    document.getElementsByClassName('container')[0].appendChild(filterByPending);
-    document.getElementsByClassName('container')[0].appendChild(filterByResolved);
-    console.log("success");
-    let data = await response.json()
-    console.log(JSON.stringify(data));
-    populateAllReimsTable(data);
+    let data = await response.json();
+    managerReimMenu(data);
   }
   else {
+   failure();
 
   }
 }
 
 function populateAllReimsTable(data) {
+  reimsTableBody.innerHTML = '';
   for (let ErsReim of data) {
+    
     let row = document.createElement('tr');
 
     for (let cell in ErsReim) {
@@ -160,11 +164,60 @@ function populateAllReimsTable(data) {
       }
       row.appendChild(td);
     }
-    allReims.appendChild(row);
+    reimsTableBody.appendChild(row);
   }
-  reimsTable.appendChild(allReims);
+  reimsTable.appendChild(reimsTableBody);
 
 }
+
+filterByPending.onclick = async function()
+{
+  let response = await fetch(URL + "ErsReim/False", {
+    method: "GET",
+    credentials: "include"
+  });
+  if (response.status == 200) {
+    let data = await response.json();
+    managerReimMenu(data);
+  }
+  else {
+    failure();
+  }
+}
+
+filterByResolved.onclick = async function()
+{
+  let response = await fetch(URL + "ErsReim/True", {
+    method: "GET",
+    credentials: "include"
+  });
+  if (response.status == 200) {
+    let data = await response.json();
+    managerReimMenu(data);
+  }
+  else {
+    failure();
+  }
+  
+}
+
+selectButton.onclick = async function getReimbursement(reimbursementId)
+{
+  let response = await fetch(URL + "ErsReim/" +reimbursementId, {
+    method: "GET",
+    credentials: "include"
+  });
+  if (response.status == 200) {
+    let data = await response.json();
+    managerReimMenu(data);
+  }
+  else {
+    failure();
+  }
+
+}
+
+
 
 
 

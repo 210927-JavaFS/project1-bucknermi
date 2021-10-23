@@ -65,6 +65,20 @@ public class ReimController implements Controller {
 		}
 	};
 	
+	public Handler getReimsByReimId = (ctx) -> {
+		String idString = ctx.pathParam("reimbursementId"); 
+		try {
+			int id = Integer.parseInt(idString);
+			ErsReim er = rs.GetReimByIdServ(id);
+			ctx.json(er);
+			ctx.status(200);
+		}
+		catch (NumberFormatException e) {
+			e.printStackTrace();
+			ctx.status(406);
+	}
+	};
+	
 	public Handler deleteReimsById = (ctx) -> {
 		String idString = ctx.pathParam("reimbursementId");
 		
@@ -86,7 +100,8 @@ public class ReimController implements Controller {
 		app.get("/ErsReim/True", this.getAllTrueReims);
 		app.post("ErsReim", this.addReims);
 		app.put("/ErsReim", this.updateReims);
-		app.get("ErsReim/:userId", this.getReimsById);
+		app.get("ErsReim/User/:userId", this.getReimsById);
+		app.get("ErsReim/Reim/:reimbursementId", this.getReimsByReimId);
 		app.delete("ErsReim/:reimbursementId", this.deleteReimsById);
 	}
 

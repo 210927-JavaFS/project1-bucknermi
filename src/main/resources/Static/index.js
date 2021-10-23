@@ -13,18 +13,30 @@ let logout = document.createElement('button');
 logout.innerText = "Logout";
 let h3 = document.createElement('h3');
 h3.innerText = 'Hello and welcome to your home menu. Please select an option from below';
+let reimsTable = document.createElement('table');
+var reimsTableHeaderArr = ['Reimbursement Id', 'Author Id', 'Resolver Id', 'Type', 'Amount', 'Description', 'Resolved', 'Accepted'];
+var reimsTableHeder = document.createElement('thead');
+for (let i = 0; i < reimsTableHeaderArr.length; i++) {
+  let th = document.createElement('th');
+  th.innerText = reimsTableHeaderArr[i];
+  reimsTable.appendChild(th);
+}
 
-//Manager elements
+//Manager main menu elements
 let viewRequests = document.createElement('button');
 viewRequests.innerHTML = 'View all past reimbursement requests'
 let filterBy = document.createElement('h4');
-sortBy.innerText = 'Filter your requests by:';
+filterBy.innerText = 'Filter your requests by:';
 let filterByPending = document.createElement('button');
 filterByPending.innerText = 'Pending requests';
 let filterByResolved = document.createElement('button');
-FilterByResolved.innerHTML = 'Resolved requests';
+filterByResolved.innerHTML = 'Resolved requests';
 let selectReimbursement = document.createElement('input');
-SelectReimbursement.innerText = 'Enter the id of the request you would like to edit';
+selectReimbursement.innerText = 'Enter the id of the request you would like to view';
+
+//Manager reimbursements menu elements
+let allReims = document.createElement('tbody');
+allReims.innerHTML = '';
 
 //Login page functions
 logout.onclick = logout.onclick = function () {
@@ -60,7 +72,7 @@ async function loginToApp() {
   let response = await fetch(URL + "Login", {
     method: "POST",
     body: JSON.stringify(user),
-    credentials: "include"  
+    credentials: "include"
   });
 
   if (response.status === 200) {
@@ -113,17 +125,45 @@ function logoutOfProgram() {
 }
 
 //Manager menu functions
-viewRequests.onclick = async function() {
+viewRequests.onclick = async function () {
   let response = await fetch(URL + "ErsReim", {
     method: "GET",
-    credentials: "include" 
+    credentials: "include"
   });
-  if(response.status==200) {
+  if (response.status == 200) {
+    document.getElementsByClassName("container")[0].innerHTML = '';
+    document.getElementsByClassName("container")[0].appendChild(reimsTable);
+    document.getElementsByClassName('container')[0].appendChild(filterBy);
+    document.getElementsByClassName('container')[0].appendChild(filterByPending);
+    document.getElementsByClassName('container')[0].appendChild(filterByResolved);
     console.log("success");
+    let data = await response.json()
+    console.log(JSON.stringify(data));
+    populateAllReimsTable(data);
   }
-  else{
-    
+  else {
+
   }
+}
+
+function populateAllReimsTable(data) {
+  for (let ErsReim of data) {
+    let row = document.createElement('tr');
+
+    for (let cell in ErsReim) {
+      let td = document.createElement('td');
+      if(cell!='author' && cell!= 'resolver'){
+      td.innerText = ErsReim[cell];
+      }
+      else if (ErsReim[cell]){
+        td.innerText = ErsReim[cell].user_id;
+      }
+      row.appendChild(td);
+    }
+    allReims.appendChild(row);
+  }
+  reimsTable.appendChild(allReims);
+
 }
 
 

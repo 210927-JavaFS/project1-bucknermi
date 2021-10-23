@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reimbursement menu</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h2>Enter your reimbursement request details below:</h2>
+        <div id="reimbursementType">Select your remibursement type: <br>
+            <label for="radio1">Lodging</label>
+            <input type="radio" id="radio1" name="radio" value="Lodging"><br>
+            <label for="radio1">Travel</label>
+            <input type="radio" id="radio2" name="radio" value="Travel"><br>
+            <label for="radio1">Food</label>
+            <input type="radio" id="radio3" name="radio" value="Food"><br>
+            <label for="radio1">Other</label>
+            <input type="radio" id="radio4" name="radio" value="Other">
+        </div>
+        <div id="reimbursementAmount">
+            <label for="reimbursementAmount"><b>Reimbursement amount: </b></label>
+            <input type="reimbursementAmount" id="reimbursementAmount" size="8">
+        </div id="reimbursementDescription">
+            <label for="reimbursementDescription"><b>Enter a description of your reimbursement request: </b></label>
+            <br>
+            <textarea for="reimbursementDescription" cols="60" rows ="5"></textarea>
+        <div>
+            <button type="button">Submit</button>
+            <button type="button" class="cancelbtn"><a href="EmployeeReimbursementRequest">Cancel</a></button>
+            <button type="button" class="homeButton"><a href = "EmployeeMenu.html">Home menu</a></button>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

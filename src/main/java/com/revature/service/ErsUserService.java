@@ -14,7 +14,7 @@ public class ErsUserService {
 	}
 	
 	public boolean loginServ(UserDTO ud) {
-	ErsUser eu = eud.accountByLogin(ud.username);
+	ErsUser eu = eud.accountByLogin(ud.username, ud.level);
 	
 		
 		if(eu!=null && ud.password.equals(eu.getPassword())) {

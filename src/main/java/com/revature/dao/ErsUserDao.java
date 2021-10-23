@@ -6,7 +6,7 @@ import com.revature.dao.model.ErsUser;
 
 public interface ErsUserDao {
 	
-	public ErsUser accountByLogin(String username);
+	public ErsUser accountByLogin(String username, String level);
 	
 	public boolean addUser(ErsUser eu);
 	

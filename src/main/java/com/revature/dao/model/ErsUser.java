@@ -19,7 +19,9 @@ public class ErsUser {
 	private String password;
 	private String firstName;
 	private String lastName;
+	@Column(unique = true)
 	private String email;
+	@Column(nullable = false)
 	private UserRole UserRole;
 	
 	public ErsUser(int user_id, String username, String password, String firstName, String lastName, String email,

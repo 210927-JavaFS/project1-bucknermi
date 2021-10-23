@@ -17,9 +17,9 @@ public class ErsUserDaoImpl implements ErsUserDao {
 
 
 	@Override
-	public ErsUser accountByLogin(String username) {
+	public ErsUser accountByLogin(String username, String level) {
 		Session session = ConfigUtil.getSession();
-		List<ErsUser> eus = session.createQuery("FROM ErsUser E WHERE username = '"+username+ "'").list();
+		List<ErsUser> eus = session.createQuery("FROM ErsUser E WHERE username = '"+username+ "' and UserRole = '" +level +"' ").list();
 		if(eus.size() == 0) {
 			ErsUser eu1 = new ErsUser();
 					return eu1;

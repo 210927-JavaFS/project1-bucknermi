@@ -33,11 +33,21 @@ filterByPending.innerText = 'Pending requests';
 let filterByResolved = document.createElement('button');
 filterByResolved.innerHTML = 'Resolved requests';
 let selectReimbursement = document.createElement('input');
-let reimbursementId = document.getElementById('selectReimbursementId');
+selectReimbursement.id = "reimbursementId";
 let selectReimburesementText = document.createElement('h4');
 selectReimburesementText.innerText = 'Enter the Id of the reimbursement you would like to view/edit';
 let selectButton = document.createElement('button');
-selectButton.innerText = 'Select reimbursement'
+selectButton.innerText = 'Select reimbursement';
+let reimDetailMenu = document.createElement('h3');
+reimDetailMenu.innerText = 'Details for this reimbursement are: ';
+let reimDetails = document.createElement('div');
+let reimApproval = document.createElement('button');
+reimApproval.id = 'reimApproval';
+reimApproval.innerText = 'Approve this reimbursement request';
+let reimDenial = document.createElement('button');
+reimDenial.innerText = 'Deny this reimbursement request';
+
+
 
 //Manager reimbursements menu elements
 
@@ -120,6 +130,27 @@ function failure() {
 
 }
 
+function populateAllReimsTable(data) {
+  reimsTableBody.innerHTML = '';
+  for (let ErsReim of data) {
+    
+    let row = document.createElement('tr');
+
+    for (let cell in ErsReim) {
+      let td = document.createElement('td');
+      if(cell!='author' && cell!= 'resolver'){
+      td.innerText = ErsReim[cell];
+      }
+      else if (ErsReim[cell]){
+        td.innerText = ErsReim[cell].user_id;
+      }
+      row.appendChild(td);
+    }
+    reimsTableBody.appendChild(row);
+  }
+  reimsTable.appendChild(reimsTableBody);
+
+}
 //Manager menu functions
 function managerReimMenu(data) {
   document.getElementsByClassName("container")[0].innerHTML = '';
@@ -146,28 +177,6 @@ viewRequests.onclick = async function () {
    failure();
 
   }
-}
-
-function populateAllReimsTable(data) {
-  reimsTableBody.innerHTML = '';
-  for (let ErsReim of data) {
-    
-    let row = document.createElement('tr');
-
-    for (let cell in ErsReim) {
-      let td = document.createElement('td');
-      if(cell!='author' && cell!= 'resolver'){
-      td.innerText = ErsReim[cell];
-      }
-      else if (ErsReim[cell]){
-        td.innerText = ErsReim[cell].user_id;
-      }
-      row.appendChild(td);
-    }
-    reimsTableBody.appendChild(row);
-  }
-  reimsTable.appendChild(reimsTableBody);
-
 }
 
 filterByPending.onclick = async function()
@@ -201,21 +210,42 @@ filterByResolved.onclick = async function()
   
 }
 
-selectButton.onclick = async function getReimbursement(reimbursementId)
+selectButton.onclick = async function getReimbursement()
 {
-  let response = await fetch(URL + "ErsReim/" +reimbursementId, {
+  let response = await fetch(URL + "ErsReim/Reim/" + document.getElementById("reimbursementId").value, {
     method: "GET",
     credentials: "include"
-  });
+  }) 
   if (response.status == 200) {
     let data = await response.json();
-    managerReimMenu(data);
+    managerResolveMenu(data);
+    
   }
   else {
     failure();
   }
 
 }
+
+function managerResolveMenu(data){
+  document.getElementsByClassName("container")[0].innerHTML = '';
+  document.getElementsByClassName('container')[0].appendChild(reimDetailMenu);
+  document.getElementsByClassName('container')[0].appendChild(reimDetails);
+  reimDetails.innerText = (JSON.stringify(data));
+  document.getElementsByClassName('container')[0].appendChild(reimApproval);
+  reimApproval.onclick=approve(data);
+  
+  document.getElementsByClassName('container')[0].appendChild(reimDenial);
+ 
+}
+
+function approve(data) {
+  console.log(JSON.stringify(data));
+  
+  }
+
+
+
 
 
 

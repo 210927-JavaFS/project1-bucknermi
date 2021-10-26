@@ -13,45 +13,64 @@ public class ReimController implements Controller {
 	private ErsReimService rs = new ErsReimService();
 
 	public Handler getAllReims = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		List<ErsReim> list = rs.getAllServ();
 
 		ctx.json(list);
-		ctx.status(200);
+		ctx.status(200);}
+		else {
+			ctx.status(401);
+		}
 	};
 
 	public Handler getAllFalseReims = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		List<ErsReim> list = rs.getAllByFalseServ();
 
 		ctx.json(list);
-		ctx.status(200);
+		ctx.status(200); }
+		else {
+			ctx.status(401);
+		}
 	};
 
 	public Handler getAllTrueReims = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		List<ErsReim> list = rs.getAllByTrueServ();
 
 		ctx.json(list);
-		ctx.status(200);
+		ctx.status(200); }
+		ctx.status(401);
 	};
 
 	public Handler addReims = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		ErsReim er = ctx.bodyAsClass(ErsReim.class);
 		if (rs.addReimServ(er)) {
 			ctx.status(201);
 		} else {
 			ctx.status(400);
+		} }
+		else {
+			ctx.status(401);
 		}
 	};
 
 	public Handler updateReims = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		ErsReim er = ctx.bodyAsClass(ErsReim.class);
 		if (rs.updateReimServ(er)) {
 			ctx.status(201);
 		} else {
 			ctx.status(400);
+		}}
+		else {
+			ctx.status(401);
 		}
 	};
 
 	public Handler getReimsById = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		String idString = ctx.pathParam("userId");
 		try {
 			int id = Integer.parseInt(idString);
@@ -62,6 +81,9 @@ public class ReimController implements Controller {
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 			ctx.status(406);
+		}}
+		else {
+			ctx.status(401);
 		}
 	};
 	
@@ -80,6 +102,7 @@ public class ReimController implements Controller {
 	};
 	
 	public Handler deleteReimsById = (ctx) -> {
+		if (ctx.req.getSession(false) != null) {
 		String idString = ctx.pathParam("reimbursementId");
 		
 		try {
@@ -90,6 +113,8 @@ public class ReimController implements Controller {
 		} catch (NumberFormatException e1) {
 			e1.printStackTrace();
 			ctx.status(406);
+	}} else {
+		ctx.status(401);
 	}
 	};
 

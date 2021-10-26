@@ -1,5 +1,9 @@
 package com.revature.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.HibernateException;
@@ -18,6 +22,10 @@ public class ErsReimDaoImpl implements ErsReimDao {
 			Session session = ConfigUtil.getSession();
 			Transaction tx;
 			tx = session.beginTransaction();
+			 Date date = Calendar.getInstance().getTime();  
+			    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+			    String strDate = dateFormat.format(date);  
+			    er.setSubmitTime(strDate);
 			session.save(er);
 			tx.commit();
 			return true;

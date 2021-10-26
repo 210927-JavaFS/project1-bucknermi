@@ -32,10 +32,18 @@ public class ErsUserController implements Controller{
 			}
 	};
 	
+	public Handler getUser = (ctx) -> {
+		UserDTO ud = ctx.bodyAsClass(UserDTO.class);
+		ErsUser eu = eus.getUserServ(ud);
+		ctx.json(eu);
+		ctx.status(200);
+	};
+	
 	@Override
 	public void addRoutes(Javalin app) {
 		app.post("/ErsUser", this.addUser);
 		app.post("/Login", this.loginAttempt);
+		app.post("/ErsUser" , this.getUser);
 	}
 
 }

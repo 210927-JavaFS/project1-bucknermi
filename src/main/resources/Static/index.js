@@ -1,7 +1,6 @@
 const URL = 'http://localhost:7000/';
 
 //Login page elements
-let container = document.getElementsByClassName('container');
 let username = document.getElementById('username');
 let password = document.getElementById('password');
 let login = document.getElementById('loginButton');
@@ -9,6 +8,8 @@ let employeeLevel = document.getElementById('radio1');
 let managerLevel = document.getElementById('radio2');
 
 //Universal menu elements
+let containerIndex = document.getElementsByClassName('container')[0];
+let storedInfo = document.getElementsByClassName('storedInfo')[0];
 let logout = document.createElement('button');
 logout.innerText = 'Logout';
 let h3 = document.createElement('h3');
@@ -60,9 +61,58 @@ addReimRequestButton.innerText = 'Add a new reimbursement';
 let hiddenUsername = document.createElement('hiddenUsername');
 hiddenUsername.hidden = true;
 hiddenUsername.innerText = '2';
+hiddenUsername.id = 'hiddenUsername';
 let hiddenPassword = document.createElement('hiddenPassword');
 hiddenPassword.hidden = true;
 hiddenPassword.innerText = '2';
+hiddenPassword.id = 'hiddenPassword';
+let foodLabel = document.createElement('label');
+let foodRadio = document.createElement('input');
+foodRadio.type= 'radio';
+foodRadio.name= 'typeRadio';
+foodRadio.id= 'foodRadio';
+foodLabel.htmlFor = 'foodRadio';
+foodLabel.innerText = 'Food'
+let lodgingLabel = document.createElement('label');
+let lodgingRadio = document.createElement('input');
+lodgingRadio.type= 'radio';
+lodgingRadio.name= 'typeRadio';
+lodgingRadio.id = 'lodgingRadio';
+lodgingLabel.htmlFor = 'lodgingRadio';
+lodgingLabel.innerText = 'Lodging'
+let travelLabel = document.createElement('label');
+let travelRadio = document.createElement('input');
+travelRadio.type= 'radio';
+travelRadio.name= 'typeRadio';
+travelRadio.id = 'travelRadio';
+travelLabel.htmlFor = 'travelRadio';
+travelLabel.innerText = 'Travel';
+let otherLabel = document.createElement('label');
+let otherRadio = document.createElement('input');
+otherRadio.type= 'radio';
+otherRadio.name= 'typeRadio';
+otherRadio.id = 'otherRadio';
+otherLabel.htmlFor = 'otherRadio';
+otherLabel.innerText = 'Other'
+let amountInput = document.createElement('input');
+amountInput.id = 'amountInput';
+let amountInputLabel = document.createElement('label');
+amountInputLabel.htmlFor = 'amountInput';
+amountInputLabel.innerText = 'Amount';
+let descriptionInput = document.createElement('input');
+descriptionInput.id = 'descriptionInput';
+let descriptionInputLabel = document.createElement('label');
+descriptionInputLabel.htmlFor = 'descriptionInput';
+descriptionInputLabel.innerText = 'Description';
+let welcomeRequest = document.createElement('h4');
+welcomeRequest.innerText = 'Enter the details of your request below';
+let requestSubmit = document.createElement('button');
+requestSubmit.innerText = 'Submit request'
+let hiddenUserId = document.createElement('hiddenUserId');
+hiddenUserId.hidden = true;
+hiddenUserId.id = 'hiddenUserId';
+hiddenUserId.innerText = '2';
+
 
 //Login page functions
 logout.onclick = function () {
@@ -91,7 +141,7 @@ async function loginToApp() {
     let para = document.createElement('p');
     para.setAttribute('style', 'color:red');
     para.innerText = 'Please select a login level';
-    document.getElementsByClassName('container')[0].appendChild(para);
+    containerIndex.appendChild(para);
   }
 
 
@@ -111,7 +161,7 @@ async function loginToApp() {
     let para = document.createElement('p');
     para.setAttribute('style', 'color:red')
     para.innerText = 'LOGIN FAILED'
-    document.getElementsByClassName('container')[0].appendChild(para);
+    containerIndex.appendChild(para);
   }
 }
 
@@ -121,25 +171,26 @@ function loadLoginMenu(){
   if (employeeLevel.checked) {
     hiddenUsername.innerText = document.getElementById('username').value;
     hiddenPassword.innerText = document.getElementById('password').value
-    document.getElementsByClassName('container')[0].innerHTML = '';
-    document.getElementsByClassName('storedInfo')[0].appendChild(hiddenUsername);
-    document.getElementsByClassName('storedInfo')[0].appendChild(hiddenPassword);
-    document.getElementsByClassName('container')[0].appendChild(h3);
-    document.getElementsByClassName('container')[0].appendChild(pastTicketsButton);
-    document.getElementsByClassName('container')[0].appendChild(addReimRequestButton);
-    document.getElementsByClassName('container')[0].appendChild(logout);
+    containerIndex.innerHTML = '';
+    storedInfo.appendChild(hiddenUsername);
+    storedInfo.appendChild(hiddenPassword);
+    getUserId();
+    containerIndex.appendChild(h3);
+    containerIndex.appendChild(pastTicketsButton);
+    containerIndex.appendChild(addReimRequestButton);
+    containerIndex.appendChild(logout);
 
   }
   if (managerLevel.checked) {
-    document.getElementsByClassName('container')[0].innerHTML = '';
-    document.getElementsByClassName('container')[0].appendChild(h3);
-    document.getElementsByClassName('container')[0].appendChild(viewRequests);
-    document.getElementsByClassName('container')[0].appendChild(logout);
+    containerIndex.innerHTML = '';
+    containerIndex.appendChild(h3);
+    containerIndex.appendChild(viewRequests);
+    containerIndex.appendChild(logout);
 
   }
 }
 function logoutOfProgram() {
-  document.getElementsByClassName('container')[0].innerHTML = '';
+  containerIndex.innerHTML = '';
   location.reload;
   return false;
 }
@@ -149,7 +200,7 @@ function failure() {
   let para = document.createElement('p');
   para.setAttribute('style', 'color:red')
   para.innerText = 'Attempt failed'
-  document.getElementsByClassName('container')[0].appendChild(para);
+  containerIndex.appendChild(para);
 
 }
 
@@ -173,9 +224,6 @@ function populateAllReimsTable(data) {
   }
   reimsTable.appendChild(reimsTableBody);
 }
-
-
-
 
 function populateSingleReimTable(data) {
   reimsTableBody.innerHTML = '';
@@ -218,38 +266,39 @@ function populateSingleReimTable(data) {
   }
   reimsTableBody.appendChild(row);
   reimsTable.appendChild(reimsTableBody);
-  document.getElementsByClassName('container')[0].appendChild(hiddenAuthor);
-  document.getElementsByClassName('container')[0].appendChild(hiddenResolver);
+  containerIndex.appendChild(hiddenAuthor);
+  containerIndex.appendChild(hiddenResolver);
 
 
 }
 
 //Manager menu functions
 function managerReimMenu(data) {
-  document.getElementsByClassName('container')[0].innerHTML = '';
-  document.getElementsByClassName('container')[0].appendChild(reimsTable);
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(reimsTable);
   populateAllReimsTable(data);
-  document.getElementsByClassName('container')[0].appendChild(filterBy);
-  document.getElementsByClassName('container')[0].appendChild(filterByPending);
-  document.getElementsByClassName('container')[0].appendChild(filterByResolved);
-  document.getElementsByClassName('container')[0].appendChild(selectReimburesementText);
-  document.getElementsByClassName('container')[0].appendChild(selectReimbursement);
-  document.getElementsByClassName('container')[0].appendChild(selectButton);
-  document.getElementsByClassName('container')[0].appendChild(logout);
+  containerIndex.appendChild(filterBy);
+  containerIndex.appendChild(filterByPending);
+  containerIndex.appendChild(filterByResolved);
+  containerIndex.appendChild(selectReimburesementText);
+  containerIndex.appendChild(selectReimbursement);
+  containerIndex.appendChild(selectButton);
+  containerIndex.appendChild(logout);
 }
 
 function managerResolveMenu(data, id) {
-  document.getElementsByClassName('container')[0].innerHTML = '';
-  document.getElementsByClassName('container')[0].appendChild(reimDetailMenu);
-  document.getElementsByClassName('container')[0].appendChild(reimsTable);
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(reimDetailMenu);
+  containerIndex.appendChild(reimsTable);
   populateSingleReimTable(data);
-  document.getElementsByClassName('container')[0].appendChild(reimDetails);
-  document.getElementsByClassName('container')[0].appendChild(reimApproval);
-  document.getElementsByClassName('container')[0].appendChild(reimDenial);
-  document.getElementsByClassName('container')[0].appendChild(hiddenReimNum);
+  containerIndex.appendChild(reimDetails);
+  containerIndex.appendChild(reimApproval);
+  containerIndex.appendChild(reimDenial);
+  containerIndex.appendChild(hiddenReimNum);
   hiddenReimNum.innerText = id;
 }
 
+//Manager onclick functions
 viewRequests.onclick = async function () {
   let response = await fetch(URL + 'ErsReim', {
     method: 'GET',
@@ -291,7 +340,6 @@ filterByResolved.onclick = async function () {
   else {
     failure();
   }
-
 }
 
 selectButton.onclick = async function getReimbursement() {
@@ -312,10 +360,6 @@ selectButton.onclick = async function getReimbursement() {
 
 }
 
-
-
-
-
 reimApproval.onclick = async function approveReim() {
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('hiddenReimNum').innerText, {
     method: 'GET',
@@ -328,11 +372,7 @@ reimApproval.onclick = async function approveReim() {
     let values = Object.values(data);
     let author = Object.values(values[1]);
     let x = author[0];
-     
-     
 
-    console.log(x);
-    console.log(values);
     let accReim = {
       reimbursementId: values[0],
       author: { user_id: 2 } ,
@@ -354,13 +394,10 @@ reimApproval.onclick = async function approveReim() {
   else {
     console.log('failure');
   }
-
-
 }
   else {
   failure();
 }
-
 }
 
 reimDenial.onclick = async function denyReim() {
@@ -375,11 +412,6 @@ reimDenial.onclick = async function denyReim() {
     let values = Object.values(data);
     let author = Object.values(values[1]);
     let x = author[0];
-      console.log(x);
-     
-
-    console.log(x);
-    console.log(values);
     let accReim = {
       reimbursementId: values[0],
       author: { user_id: 2 } ,
@@ -401,52 +433,56 @@ reimDenial.onclick = async function denyReim() {
   else {
     console.log('failure');
   }
-
-
 }
   else {
   failure();
 }
-
 }
-
 
 //Employee Menu Functions
-function employeePastRequestsMen(data) {
-  document.getElementsByClassName('container')[0].innerHTML = '';
-  document.getElementsByClassName('container')[0].appendChild(reimsTable);
+function employeePastRequestsMenu(data) {
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(reimsTable);
   populateAllReimsTable(data);
-  
+
 }
 
-pastTicketsButton.onclick = async function(){
+addReimRequestButton.onclick = function createReimRequest(){
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(welcomeRequest);
+  containerIndex.appendChild(foodLabel);
+  containerIndex.appendChild(foodRadio);
+  containerIndex.appendChild(travelLabel);
+  containerIndex.appendChild(travelRadio);
+  containerIndex.appendChild(lodgingLabel)
+  containerIndex.appendChild(lodgingRadio);
+  containerIndex.appendChild(otherLabel);
+  containerIndex.appendChild(otherRadio);
+  containerIndex.appendChild(amountInputLabel);
+  containerIndex.appendChild(amountInput);
+  containerIndex.appendChild(descriptionInputLabel);
+  containerIndex.appendChild(descriptionInput);
+  containerIndex.appendChild(requestSubmit);
+}
+
+async function getUserId() {
   var user = {
-    username: document.getElementById('hiddenUsername').value,
-    password: document.getElementById('hiddenPassword').value,
+    username: document.getElementById('hiddenUsername').innerText,
+    password: document.getElementById('hiddenPassword').innerText,
     level: 'EMPLOYEE'
 
 }
-let response = await fetch(URL + 'Login', {
+let response = await fetch(URL + 'ErsUser/Proxy', {
   method: 'POST',
   body: JSON.stringify(user),
   credentials: 'include'
 });
-
 if (response.status === 200) {
   let proxy = await response.json();
   let values = Object.values(proxy);
-  let userId = data[0];
-
-  let response1 = await fetch(URL + "User/" +userId, {
-    method: 'GET',
-    credentials: 'include'
-  });
-  if (response1.status === 200) {
-    let data = await response1.json();
-    employeePastRequestsMen(data);
-  }
-
-  
+  let userId = values[0];
+  hiddenUserId.innerText = userId;
+  storedInfo.appendChild(hiddenUserId);
   }
 
 else {
@@ -454,7 +490,47 @@ else {
 }
 }
 
+pastTicketsButton.onclick = async function(){
+  let userId = document.getElementById('hiddenUserId').innerText;
+  let response1 = await fetch(URL + "ErsReim/User/" +userId, {
+    method: 'GET',
+    credentials: 'include'
+  });
+  if (response1.status === 200) {
+    let data = await response1.json();
+    employeePastRequestsMenu(data);
+  }
 
+else {
+  failure();
+}
+}
+
+requestSubmit.onclick = async function() {
+  let request = {
+    author: {
+      user_id: document.getElementById('hiddenUserId').innerText
+  },
+  resolver: null,
+  reimbursementType: null,
+  amount: document.getElementById('amountInput').value,
+  description: document.getElementById('descriptionInput').value,
+  resolved: false,
+  accepted: false
+  }
+  let response = await fetch(URL + 'ErsReim', {
+    method: 'POST',
+    body: JSON.stringify(request),
+    credentials: 'include'
+  });
+  if(response.status === 201) {
+    console.log('success');
+  }
+  else {
+    console.log('failure');
+  }
+
+}
 
 
 

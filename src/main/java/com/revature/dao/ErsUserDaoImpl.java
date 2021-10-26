@@ -22,9 +22,11 @@ public class ErsUserDaoImpl implements ErsUserDao {
 		List<ErsUser> eus = session.createQuery("FROM ErsUser E WHERE username = '"+username+ "' and UserRole = '" +level +"' ").list();
 		if(eus.size() == 0) {
 			ErsUser eu1 = new ErsUser();
+			
 					return eu1;
 		}else {
 		ErsUser eu = eus.get(0);
+		System.out.println(eu.toString());
 		return eu;}
 		
 

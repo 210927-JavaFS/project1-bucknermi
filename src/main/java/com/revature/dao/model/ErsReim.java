@@ -19,7 +19,7 @@ public class ErsReim {
 	LODGING, TRAVEL, FOOD, OTHER}
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int reimbursementId;
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="authorId")

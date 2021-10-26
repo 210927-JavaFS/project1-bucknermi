@@ -24,5 +24,10 @@ public class ErsUserService {
 		System.out.println(eu.toString());
 		return false;
 	}
+	
+	public ErsUser getUserServ(UserDTO ud) {
+		ErsUser eu = eud.accountByLogin(ud.username, ud.level);
+		return eu;
+	}
 
 }

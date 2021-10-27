@@ -10,12 +10,14 @@ let managerLevel = document.getElementById('radio2');
 //Universal menu elements
 let containerIndex = document.getElementsByClassName('container')[0];
 let storedInfo = document.getElementsByClassName('storedInfo')[0];
+let navbar = document.getElementsByClassName('navbar')[0];
 let logout = document.createElement('button');
 logout.innerText = 'Logout';
 let h3 = document.createElement('h3');
 h3.innerText = 'Hello and welcome to your home menu. Please select an option from below';
 let reimsTable = document.createElement('table');
-var reimsTableHeaderArr = ['Reimbursement Id', 'Author Id', 'Resolver Id', 'Type', 'Amount', 'Description', 'Resolved', 'Accepted'];
+var reimsTableHeaderArr = ['Id', 'Author Id', 'Resolver Id', 'Type', 'Amount', 'Description',
+'Submit Time', 'Resolve Time',  'Resolved', 'Accepted'];
 var reimsTableHeder = document.createElement('thead');
 for (let i = 0; i < reimsTableHeaderArr.length; i++) {
   let th = document.createElement('th');
@@ -25,6 +27,8 @@ for (let i = 0; i < reimsTableHeaderArr.length; i++) {
 var reimsTableBody = document.createElement('tbody');
 
 //Manager main menu elements
+let managerHomeButton = document.createElement('button');
+managerHomeButton.innerText = 'Home';
 let viewRequests = document.createElement('button');
 viewRequests.innerHTML = 'View all past reimbursement requests'
 let filterBy = document.createElement('h4');
@@ -54,6 +58,8 @@ hiddenReimNum.innerText = '2';
 
 
 //Employee main menu elements
+let employeeHomeButton = document.createElement('button');
+employeeHomeButton.innerText = 'Home';
 let pastTicketsButton = document.createElement('button');
 pastTicketsButton.innerText = 'View past tickets';
 let addReimRequestButton = document.createElement('button');
@@ -119,9 +125,8 @@ logout.onclick = function () {
   location.reload();
   return false;
 }
-login.onclick = loginToApp;
 
-async function loginToApp() {
+login.onclick = async function loginToApp() {
   if (managerLevel.checked) {
     var user = {
       username: document.getElementById('username').value,
@@ -137,13 +142,8 @@ async function loginToApp() {
     }
   }
   else {
-    console.log('failure');
-    let para = document.createElement('p');
-    para.setAttribute('style', 'color:red');
-    para.innerText = 'Please select a login level';
-    containerIndex.appendChild(para);
+    failure();
   }
-
 
   let response = await fetch(URL + 'Login', {
     method: 'POST',
@@ -152,16 +152,10 @@ async function loginToApp() {
   });
 
   if (response.status === 200) {
-
       loadLoginMenu();
     }
-
   else {
-    console.log('failure');
-    let para = document.createElement('p');
-    para.setAttribute('style', 'color:red')
-    para.innerText = 'LOGIN FAILED'
-    containerIndex.appendChild(para);
+   failure();
   }
 }
 
@@ -169,54 +163,79 @@ async function loginToApp() {
 
 function loadLoginMenu(){
   if (employeeLevel.checked) {
-    hiddenUsername.innerText = document.getElementById('username').value;
-    hiddenPassword.innerText = document.getElementById('password').value
-    containerIndex.innerHTML = '';
-    storedInfo.appendChild(hiddenUsername);
-    storedInfo.appendChild(hiddenPassword);
-    getUserId();
-    containerIndex.appendChild(h3);
-    containerIndex.appendChild(pastTicketsButton);
-    containerIndex.appendChild(addReimRequestButton);
-    containerIndex.appendChild(logout);
-
+  employeeMainMenu();
+  navbar.appendChild(logout);
+  navbar.appendChild(employeeHomeButton);
+    
   }
   if (managerLevel.checked) {
-    containerIndex.innerHTML = '';
-    containerIndex.appendChild(h3);
-    containerIndex.appendChild(viewRequests);
-    containerIndex.appendChild(logout);
-
+  managerMainMenu();
+  navbar.appendChild(logout);
+  navbar.appendChild(managerHomeButton);
   }
-}
-function logoutOfProgram() {
-  containerIndex.innerHTML = '';
-  location.reload;
-  return false;
+
 }
 
 function failure() {
-  console.log('failure');
-  let para = document.createElement('p');
-  para.setAttribute('style', 'color:red')
-  para.innerText = 'Attempt failed'
-  containerIndex.appendChild(para);
-
+alert("Attempt failed")
 }
 
 function populateAllReimsTable(data) {
   reimsTableBody.innerHTML = '';
   for (let ErsReim of data) {
-
     let row = document.createElement('tr');
+    let values = Object.values(ErsReim);
 
-    for (let cell in ErsReim) {
+    if (values[2] == null) {
+      values[2] = [];
+    }
+    if (values[1] == null) {
+      values[1] == [];
+    }
+
+    if (values[8] == false) {
+      values[8] = 'no';
+      values[9] = '--';
+    }
+    else {
+      values[8] = 'yes';
+    if (values[9] == false) {
+      values[9] = 'no'
+    }
+    else {
+      values[9] = 'yes';
+    } }
+
+    if(values[7] == null) {
+      values[7] = "--";
+    }
+
+    if(values[6] == null){
+      values[6]== "--";
+    }
+
+    let shortDesc = values[5].substring(0,7)
+    if(values[5].length > 7) {
+    values[5] = (shortDesc + "..."); }
+    
+    let author = Object.values(values[1]);
+    let resolver = Object.values(values[2]);
+  
+    for (let i = 0; i < values.length; i++) {
       let td = document.createElement('td');
-      if (cell != 'author' && cell != 'resolver') {
-        td.innerText = ErsReim[cell];
+      td.id = reimsTableHeaderArr[i]
+      if (i == 1) {
+        td.innerText = author[0];
       }
-      else if (ErsReim[cell]) {
-        td.innerText = ErsReim[cell].user_id;
+      else if (i == 2) {
+        if (resolver[0] == undefined) {
+        td.innerText = '--';}
+        else {
+        td.innerText = resolver[0];
+      }
+      }
+      else {
+        td.innerText = values[i];
       }
       row.appendChild(td);
     }
@@ -229,36 +248,58 @@ function populateSingleReimTable(data) {
   reimsTableBody.innerHTML = '';
 
   let row = document.createElement('tr');
-  let hiddenAuthor = document.createElement('p');
-  let hiddenResolver = document.createElement('p');
+  
   let values = Object.values(data);
-  hiddenAuthor.innerText = JSON.stringify(values[1]);
-  hiddenResolver.innerText = JSON.stringify(values[2]);
-
-  hiddenAuthor.hidden = true;
-
-  hiddenResolver.hidden = true;
 
   if (values[2] == null) {
     values[2] = [];
   }
+  if (values[1] == null) {
+    values[1] == [];
+  }
 
+  if (values[8] == false) {
+    values[8] = 'no';
+    values[9] = ' ';
+  }
+  else {
+    values[8] = 'yes';
+  if (values[9] == false) {
+    values[9] = 'no'
+  }
+  else {
+    values[9] = 'yes';
+  } }
+
+  if(values[7] == null) {
+    values[7] = "--";
+  }
+
+  if(values[6] == null){
+    values[6]== "--";
+  }
+
+  let shortDesc = values[5].substring(0,7)
+  if(values[5].length > 7) {
+  values[5] = (shortDesc + "..."); }
+  
+  
   let author = Object.values(values[1]);
   let resolver = Object.values(values[2]);
 
   for (let i = 0; i < values.length; i++) {
-    console.log(values[i]);
     let td = document.createElement('td');
     td.id = reimsTableHeaderArr[i]
     if (i == 1) {
-      let x = author[0];
-      td.innerText = x.toString();
-
+      td.innerText = author[0];
     }
     else if (i == 2) {
+      if (resolver[0] == undefined) {
+      td.innerText = '--';}
+      else {
       td.innerText = resolver[0];
     }
-
+    }
     else {
       td.innerText = values[i];
     }
@@ -266,13 +307,27 @@ function populateSingleReimTable(data) {
   }
   reimsTableBody.appendChild(row);
   reimsTable.appendChild(reimsTableBody);
-  containerIndex.appendChild(hiddenAuthor);
-  containerIndex.appendChild(hiddenResolver);
-
-
 }
 
 //Manager menu functions
+function managerMainMenu() {
+  hiddenUsername.innerText = document.getElementById('username').value;
+  hiddenPassword.innerText = document.getElementById('password').value
+  storedInfo.appendChild(hiddenUsername);
+  storedInfo.appendChild(hiddenPassword);
+  getManagerId();
+  containerIndex.innerHTML = '';  
+  containerIndex.appendChild(h3);
+  containerIndex.appendChild(viewRequests);
+  
+}
+
+managerHomeButton.onclick = function managerMainMenuNav() {
+  containerIndex.innerHTML = '';  
+  containerIndex.appendChild(h3);
+  containerIndex.appendChild(viewRequests);
+}
+
 function managerReimMenu(data) {
   containerIndex.innerHTML = '';
   containerIndex.appendChild(reimsTable);
@@ -283,7 +338,7 @@ function managerReimMenu(data) {
   containerIndex.appendChild(selectReimburesementText);
   containerIndex.appendChild(selectReimbursement);
   containerIndex.appendChild(selectButton);
-  containerIndex.appendChild(logout);
+ 
 }
 
 function managerResolveMenu(data, id) {
@@ -298,8 +353,33 @@ function managerResolveMenu(data, id) {
   hiddenReimNum.innerText = id;
 }
 
+async function getManagerId() {
+  var user = {
+    username: document.getElementById('hiddenUsername').innerText,
+    password: document.getElementById('hiddenPassword').innerText,
+    level: 'MANAGER'
+
+}
+let response = await fetch(URL + 'ErsUser/Proxy', {
+  method: 'POST',
+  body: JSON.stringify(user),
+  credentials: 'include'
+});
+if (response.status === 200) {
+  let proxy = await response.json();
+  let values = Object.values(proxy);
+  let userId = values[0];
+  hiddenUserId.innerText = userId;
+  storedInfo.appendChild(hiddenUserId);
+  }
+
+else {
+  failure();
+}
+}
+
 //Manager onclick functions
-viewRequests.onclick = async function () {
+viewRequests.onclick = async function viewRequests() {
   let response = await fetch(URL + 'ErsReim', {
     method: 'GET',
     credentials: 'include'
@@ -342,7 +422,7 @@ filterByResolved.onclick = async function () {
   }
 }
 
-selectButton.onclick = async function getReimbursement() {
+selectButton.onclick = async function () {
   let id = document.getElementById('reimbursementId').value;
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('reimbursementId').value, {
     method: 'GET',
@@ -351,16 +431,13 @@ selectButton.onclick = async function getReimbursement() {
   if (response.status == 200) {
     let data = await response.json();
     managerResolveMenu(data, id);
-
-
   }
   else {
     failure();
   }
-
 }
 
-reimApproval.onclick = async function approveReim() {
+reimApproval.onclick = async function () {
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('hiddenReimNum').innerText, {
     method: 'GET',
     credentials: 'include'
@@ -375,7 +452,7 @@ reimApproval.onclick = async function approveReim() {
 
     let accReim = {
       reimbursementId: values[0],
-      author: { user_id: 2 } ,
+      author: { user_id: x } ,
       resolver: {user_id: 2 },
       reimbursementType: values[3],
       amount: values[4],
@@ -383,7 +460,6 @@ reimApproval.onclick = async function approveReim() {
       resolved: true,
       accepted: true
     }
-    console.log(JSON.stringify(data.author));
     let response1 = await fetch(URL + 'ErsReim', {
       method: 'PUT',
       body: JSON.stringify(accReim),
@@ -400,7 +476,7 @@ reimApproval.onclick = async function approveReim() {
 }
 }
 
-reimDenial.onclick = async function denyReim() {
+reimDenial.onclick = async function () {
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('hiddenReimNum').innerText, {
     method: 'GET',
     credentials: 'include'
@@ -440,11 +516,32 @@ reimDenial.onclick = async function denyReim() {
 }
 
 //Employee Menu Functions
+
+function employeeMainMenu(){
+  hiddenUsername.innerText = document.getElementById('username').value;
+  hiddenPassword.innerText = document.getElementById('password').value
+  storedInfo.appendChild(hiddenUsername);
+  storedInfo.appendChild(hiddenPassword);
+  getUserId();
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(h3);
+  containerIndex.appendChild(pastTicketsButton);
+  containerIndex.appendChild(addReimRequestButton);
+
+}
+
 function employeePastRequestsMenu(data) {
   containerIndex.innerHTML = '';
   containerIndex.appendChild(reimsTable);
   populateAllReimsTable(data);
 
+}
+
+employeeHomeButton.onclick = function employeeMainMenuNav(){
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(h3);
+  containerIndex.appendChild(pastTicketsButton);
+  containerIndex.appendChild(addReimRequestButton);
 }
 
 addReimRequestButton.onclick = function createReimRequest(){

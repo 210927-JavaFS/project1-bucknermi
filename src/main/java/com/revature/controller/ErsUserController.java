@@ -25,7 +25,7 @@ public class ErsUserController implements Controller{
 	};
 	
 	public Handler  loginAttempt = (ctx) -> {
-		if (ctx.req.getSession(false) != null) {
+		 
 		UserDTO ud = ctx.bodyAsClass(UserDTO.class);
 			if(eus.loginServ(ud)) {
 				ctx.req.getSession();
@@ -34,10 +34,8 @@ public class ErsUserController implements Controller{
 			else {
 				ctx.req.getSession().invalidate();
 				ctx.status(400);
-			} }
-		else {
-			ctx.status(401);
-		}
+			} 
+		
 	};
 	
 	public Handler getUser = (ctx) -> {

@@ -30,6 +30,14 @@ a{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.button {
+    background-color: White;
+    padding: 5.5x 28px;
+    border-radius: 8px;
+    font-weight: bold;
+    color:darkmagenta;
+}
+
 
 #credentials {
     padding-top: 3px;
@@ -43,6 +51,20 @@ a{
 
 #forgotPasswordContainer {
     padding-top: 15px;
+}
+
+table, td, th {
+    text-align: center;
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    
+}
+table {
+    overflow-y: scroll;
+    overflow-x: scroll;
+    
+   
 }
 
 .navbar {

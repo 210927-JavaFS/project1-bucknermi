@@ -13,6 +13,7 @@ let storedInfo = document.getElementsByClassName('storedInfo')[0];
 let navbar = document.getElementsByClassName('navbar')[0];
 let logout = document.createElement('button');
 logout.innerText = 'Logout';
+logout.className = 'button';
 let h3 = document.createElement('h3');
 h3.innerText = 'Hello and welcome to your home menu. Please select an option from below';
 let reimsTable = document.createElement('table');
@@ -29,27 +30,34 @@ var reimsTableBody = document.createElement('tbody');
 //Manager main menu elements
 let managerHomeButton = document.createElement('button');
 managerHomeButton.innerText = 'Home';
+managerHomeButton.className = 'button';
 let viewRequests = document.createElement('button');
+viewRequests.className = 'button';
 viewRequests.innerHTML = 'View all past reimbursement requests'
 let filterBy = document.createElement('h4');
 filterBy.innerText = 'Filter your requests by:';
 let filterByPending = document.createElement('button');
+filterByPending.className = 'button';
 filterByPending.innerText = 'Pending requests';
 let filterByResolved = document.createElement('button');
+filterByResolved.className = 'button';
 filterByResolved.innerHTML = 'Resolved requests';
 let selectReimbursement = document.createElement('input');
 selectReimbursement.id = 'reimbursementId';
 let selectReimburesementText = document.createElement('h4');
 selectReimburesementText.innerText = 'Enter the Id of the reimbursement you would like to view/edit';
 let selectButton = document.createElement('button');
+selectButton.className = 'button';
 selectButton.innerText = 'Select reimbursement';
 let reimDetailMenu = document.createElement('h3');
 reimDetailMenu.innerText = 'Details for this reimbursement are: ';
 let reimDetails = document.createElement('div');
 let reimApproval = document.createElement('button');
+reimApproval.className = 'button';
 reimApproval.id = 'reimApproval';
 reimApproval.innerText = 'Approve this reimbursement request';
 let reimDenial = document.createElement('button');
+reimDenial.className = 'button';
 reimDenial.innerText = 'Deny this reimbursement request';
 let hiddenReimNum = document.createElement('hiddenReimNum');
 hiddenReimNum.hidden = true;
@@ -59,10 +67,13 @@ hiddenReimNum.innerText = '2';
 
 //Employee main menu elements
 let employeeHomeButton = document.createElement('button');
+employeeHomeButton.className = 'button';
 employeeHomeButton.innerText = 'Home';
 let pastTicketsButton = document.createElement('button');
+pastTicketsButton.className = 'button';
 pastTicketsButton.innerText = 'View past tickets';
 let addReimRequestButton = document.createElement('button');
+addReimRequestButton.className = 'button';
 addReimRequestButton.innerText = 'Add a new reimbursement';
 let hiddenUsername = document.createElement('hiddenUsername');
 hiddenUsername.hidden = true;
@@ -113,6 +124,7 @@ descriptionInputLabel.innerText = 'Description';
 let welcomeRequest = document.createElement('h4');
 welcomeRequest.innerText = 'Enter the details of your request below';
 let requestSubmit = document.createElement('button');
+requestSubmit.class = 'button';
 requestSubmit.innerText = 'Submit request'
 let hiddenUserId = document.createElement('hiddenUserId');
 hiddenUserId.hidden = true;
@@ -177,7 +189,7 @@ function loadLoginMenu(){
 }
 
 function failure() {
-alert("Attempt failed")
+alert('Attempt failed')
 }
 
 function populateAllReimsTable(data) {
@@ -207,16 +219,34 @@ function populateAllReimsTable(data) {
     } }
 
     if(values[7] == null) {
-      values[7] = "--";
+      values[7] = '--';
     }
 
     if(values[6] == null){
-      values[6]== "--";
+      values[6]= '--';
+    }
+
+    if(values[5] == null) {
+      values[5]= '--';
     }
 
     let shortDesc = values[5].substring(0,7)
     if(values[5].length > 7) {
-    values[5] = (shortDesc + "..."); }
+    values[5] = (shortDesc + '...'); }
+
+    let shortDesc1 = values[6].substring(0,8)
+    if(values[6].length > 8) {
+    values[6] = (shortDesc1 + '...'); }
+
+    let shortDesc2 = values[7].substring(0,8)
+    if(values[7].length > 8) {
+    values[7] = (shortDesc2 + '...'); }
+
+    
+
+    
+
+    values [4] = (values[4] + "$")
     
     let author = Object.values(values[1]);
     let resolver = Object.values(values[2]);
@@ -272,16 +302,16 @@ function populateSingleReimTable(data) {
   } }
 
   if(values[7] == null) {
-    values[7] = "--";
+    values[7] = '--';
   }
 
   if(values[6] == null){
-    values[6]== "--";
+    values[6]== '--';
   }
 
   let shortDesc = values[5].substring(0,7)
   if(values[5].length > 7) {
-  values[5] = (shortDesc + "..."); }
+  values[5] = (shortDesc + '...'); }
   
   
   let author = Object.values(values[1]);
@@ -589,7 +619,7 @@ else {
 
 pastTicketsButton.onclick = async function(){
   let userId = document.getElementById('hiddenUserId').innerText;
-  let response1 = await fetch(URL + "ErsReim/User/" +userId, {
+  let response1 = await fetch(URL + 'ErsReim/User/' +userId, {
     method: 'GET',
     credentials: 'include'
   });

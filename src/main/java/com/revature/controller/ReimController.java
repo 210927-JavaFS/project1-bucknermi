@@ -40,7 +40,9 @@ public class ReimController implements Controller {
 
 		ctx.json(list);
 		ctx.status(200); }
-		ctx.status(401);
+		else {
+		ctx.status(401); }
+		
 	};
 
 	public Handler addReims = (ctx) -> {

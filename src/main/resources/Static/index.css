@@ -28,6 +28,8 @@ a{
     right: 400px;
     margin: auto;
     font-family: Arial, Helvetica, sans-serif;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 .button {
@@ -36,6 +38,10 @@ a{
     border-radius: 8px;
     font-weight: bold;
     color:darkmagenta;
+    margin-top: 4px ;
+    margin-bottom: 4px;
+    margin-left: 2px;
+    margin-right: 2px; 
 }
 
 
@@ -57,16 +63,18 @@ table, td, th {
     text-align: center;
     border: 1px solid black;
     border-collapse: collapse;
-    padding: 10px;
+    padding: 3px;
+    border-radius: 6px;
+    
     
 }
 table {
-    overflow-y: scroll;
-    overflow-x: scroll;
+    overflow-y: auto;
+    overflow-x: auto;
+    height: 60%;
+    width: 95%;
     
    
 }
 
-.navbar {
-   
-}
+

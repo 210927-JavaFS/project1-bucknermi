@@ -11,11 +11,13 @@ let managerLevel = document.getElementById('radio2');
 let containerIndex = document.getElementsByClassName('container')[0];
 let storedInfo = document.getElementsByClassName('storedInfo')[0];
 let navbar = document.getElementsByClassName('navbar')[0];
+let br = document.createElement('br');
+br.innerText = ' \n ';
 let logout = document.createElement('button');
 logout.innerText = 'Logout';
 logout.className = 'button';
 let h3 = document.createElement('h3');
-h3.innerText = 'Hello and welcome to your home menu. Please select an option from below';
+h3.innerText = 'Hello and welcome to your home menu. Please select an option from below: ';
 let reimsTable = document.createElement('table');
 var reimsTableHeaderArr = ['Id', 'Author Id', 'Resolver Id', 'Type', 'Amount', 'Description',
 'Submit Time', 'Resolve Time',  'Resolved', 'Accepted'];
@@ -33,7 +35,7 @@ managerHomeButton.innerText = 'Home';
 managerHomeButton.className = 'button';
 let viewRequests = document.createElement('button');
 viewRequests.className = 'button';
-viewRequests.innerHTML = 'View all past reimbursement requests'
+viewRequests.innerHTML = 'View all reimbursement requests'
 let filterBy = document.createElement('h4');
 filterBy.innerText = 'Filter your requests by:';
 let filterByPending = document.createElement('button');
@@ -45,7 +47,7 @@ filterByResolved.innerHTML = 'Resolved requests';
 let selectReimbursement = document.createElement('input');
 selectReimbursement.id = 'reimbursementId';
 let selectReimburesementText = document.createElement('h4');
-selectReimburesementText.innerText = 'Enter the Id of the reimbursement you would like to view/edit';
+selectReimburesementText.innerText = 'Enter the Id of the reimbursement you would like to view/approve/deny: ';
 let selectButton = document.createElement('button');
 selectButton.className = 'button';
 selectButton.innerText = 'Select reimbursement';
@@ -111,25 +113,31 @@ otherRadio.name= 'typeRadio';
 otherRadio.id = 'otherRadio';
 otherLabel.htmlFor = 'otherRadio';
 otherLabel.innerText = 'Other'
-let amountInput = document.createElement('input');
+let amountInput = document.createElement('textarea');
 amountInput.id = 'amountInput';
+amountInput.rows = 1;
+amountInput.cols = 8;
 let amountInputLabel = document.createElement('label');
 amountInputLabel.htmlFor = 'amountInput';
-amountInputLabel.innerText = 'Amount';
-let descriptionInput = document.createElement('input');
+amountInputLabel.innerText = '\n \n Amount: \n';
+let descriptionInput = document.createElement('textarea');
 descriptionInput.id = 'descriptionInput';
+descriptionInput.rows = 8;
+descriptionInput.cols = 50;
 let descriptionInputLabel = document.createElement('label');
 descriptionInputLabel.htmlFor = 'descriptionInput';
-descriptionInputLabel.innerText = 'Description';
+descriptionInputLabel.innerText = '\n \n Description: \n';
 let welcomeRequest = document.createElement('h4');
 welcomeRequest.innerText = 'Enter the details of your request below';
 let requestSubmit = document.createElement('button');
-requestSubmit.class = 'button';
+requestSubmit.className = 'button';
 requestSubmit.innerText = 'Submit request'
 let hiddenUserId = document.createElement('hiddenUserId');
 hiddenUserId.hidden = true;
 hiddenUserId.id = 'hiddenUserId';
 hiddenUserId.innerText = '2';
+let reimbursementRadioTye = document.createElement('words');
+reimbursementRadioTye.innerText = 'Type: \n';
 
 
 //Login page functions
@@ -154,7 +162,9 @@ login.onclick = async function loginToApp() {
     }
   }
   else {
-    failure();
+    var user = {
+      
+    }
   }
 
   let response = await fetch(URL + 'Login', {
@@ -190,6 +200,14 @@ function loadLoginMenu(){
 
 function failure() {
 alert('Attempt failed')
+}
+
+function success() {
+  alert('Attempt successful, redirecting...')
+}
+
+function requestFailure() {
+  alert('This request has already been closed')
 }
 
 function populateAllReimsTable(data) {
@@ -242,11 +260,7 @@ function populateAllReimsTable(data) {
     if(values[7].length > 8) {
     values[7] = (shortDesc2 + '...'); }
 
-    
-
-    
-
-    values [4] = (values[4] + "$")
+    values [4] = (values[4] + '$')
     
     let author = Object.values(values[1]);
     let resolver = Object.values(values[2]);
@@ -309,17 +323,22 @@ function populateSingleReimTable(data) {
     values[6]== '--';
   }
 
-  let shortDesc = values[5].substring(0,7)
-  if(values[5].length > 7) {
-  values[5] = (shortDesc + '...'); }
-  
-  
+  let desc = values[5];
+  if (desc.length > 50) {
+    desc = desc.substring(0,50) + ' \n ' + desc.substring(50,desc.length);
+    if(desc.length>100) {
+      desc = desc.substring(0,100) + ' \n ' + desc.substring(100,desc.length);
+    }
+    values[5] = desc;
+  }
+
+
   let author = Object.values(values[1]);
   let resolver = Object.values(values[2]);
 
   for (let i = 0; i < values.length; i++) {
     let td = document.createElement('td');
-    td.id = reimsTableHeaderArr[i]
+    td.id = reimsTableHeaderArr[i]+'single'
     if (i == 1) {
       td.innerText = author[0];
     }
@@ -352,7 +371,13 @@ function managerMainMenu() {
   
 }
 
-managerHomeButton.onclick = function managerMainMenuNav() {
+function managerMainMenuNav() {
+  containerIndex.innerHTML = '';  
+  containerIndex.appendChild(h3);
+  containerIndex.appendChild(viewRequests);
+}
+
+managerHomeButton.onclick = function () {
   containerIndex.innerHTML = '';  
   containerIndex.appendChild(h3);
   containerIndex.appendChild(viewRequests);
@@ -472,18 +497,21 @@ reimApproval.onclick = async function () {
     method: 'GET',
     credentials: 'include'
   })
-  console.log(document.getElementById('hiddenReimNum').innerText);
   if (response.status == 200) {
     let data = await response.json();
 
     let values = Object.values(data);
     let author = Object.values(values[1]);
+    if(values[8]==true){
+      requestFailure();
+    }
+    else{
     let x = author[0];
-
+    let y = document.getElementById('hiddenUserId').innerText;
     let accReim = {
       reimbursementId: values[0],
       author: { user_id: x } ,
-      resolver: {user_id: 2 },
+      resolver: {user_id: y },
       reimbursementType: values[3],
       amount: values[4],
       description: values[5],
@@ -495,11 +523,13 @@ reimApproval.onclick = async function () {
       body: JSON.stringify(accReim),
       credentials: 'include'
     }); if (response1.status == 201) {
-      console.log('success')
+      success(); 
+      managerMainMenuNav(); 
     }
   else {
-    console.log('failure');
-  }
+    failure();
+    
+  }}
 }
   else {
   failure();
@@ -511,34 +541,37 @@ reimDenial.onclick = async function () {
     method: 'GET',
     credentials: 'include'
   })
-  console.log(document.getElementById('hiddenReimNum').innerText);
   if (response.status == 200) {
     let data = await response.json();
 
     let values = Object.values(data);
     let author = Object.values(values[1]);
+    if(values[8]==true){
+      requestFailure();}
+      else {
     let x = author[0];
+    let y = document.getElementById('hiddenUserId').innerText;
     let accReim = {
       reimbursementId: values[0],
-      author: { user_id: 2 } ,
-      resolver: {user_id: 2 },
+      author: { user_id: x } ,
+      resolver: {user_id: y },
       reimbursementType: values[3],
       amount: values[4],
       description: values[5],
       resolved: true,
       accepted: false
-    }
-    console.log(JSON.stringify(data.author));
+    };
     let response1 = await fetch(URL + 'ErsReim', {
       method: 'PUT',
       body: JSON.stringify(accReim),
       credentials: 'include'
     }); if (response1.status == 201) {
-      console.log('success')
+      success();
+      managerMainMenuNav();
     }
   else {
-    console.log('failure');
-  }
+    failure();
+  }}
 }
   else {
   failure();
@@ -567,7 +600,14 @@ function employeePastRequestsMenu(data) {
 
 }
 
-employeeHomeButton.onclick = function employeeMainMenuNav(){
+function employeeMainMenuNav(){
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(h3);
+  containerIndex.appendChild(pastTicketsButton);
+  containerIndex.appendChild(addReimRequestButton);
+}
+
+employeeHomeButton.onclick = function(){
   containerIndex.innerHTML = '';
   containerIndex.appendChild(h3);
   containerIndex.appendChild(pastTicketsButton);
@@ -577,6 +617,7 @@ employeeHomeButton.onclick = function employeeMainMenuNav(){
 addReimRequestButton.onclick = function createReimRequest(){
   containerIndex.innerHTML = '';
   containerIndex.appendChild(welcomeRequest);
+  containerIndex.appendChild(reimbursementRadioTye);
   containerIndex.appendChild(foodLabel);
   containerIndex.appendChild(foodRadio);
   containerIndex.appendChild(travelLabel);
@@ -651,10 +692,11 @@ requestSubmit.onclick = async function() {
     credentials: 'include'
   });
   if(response.status === 201) {
-    console.log('success');
+    success();
+    employeeMainMenuNav();
   }
   else {
-    console.log('failure');
+    failure();
   }
 
 }

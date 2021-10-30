@@ -95,6 +95,8 @@ public class ErsReim {
 		this.resolved = resolved;
 		this.accepted = accepted;
 	}
+	
+	
 
 	public ErsReim() {
 		super();

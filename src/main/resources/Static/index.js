@@ -563,6 +563,7 @@ reimApproval.onclick = async function () {
       reimbursementType: values[3],
       amount: values[4],
       description: values[5],
+      submitTime: values[6],
       resolved: true,
       accepted: true
     }

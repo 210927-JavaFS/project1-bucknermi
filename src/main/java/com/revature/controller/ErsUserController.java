@@ -49,11 +49,27 @@ public class ErsUserController implements Controller{
 		}
 	};
 	
+	public Handler deleteUser = (ctx) -> { 
+		if (ctx.req.getSession(false) != null) {
+		ErsUser eu = ctx.bodyAsClass(ErsUser.class);
+		if (eus.deleteUserServ(eu)) {
+			ctx.status(201);
+		} else {
+			ctx.status(400);
+		} }
+		else {
+			ctx.status(401);
+		}
+	};
+	
+	
+	
 	@Override
 	public void addRoutes(Javalin app) {
 		app.post("/ErsUser", this.addUser);
 		app.post("/Login", this.loginAttempt);
 		app.post("/ErsUser/Proxy" , this.getUser);
+		app.post("/ErsUser/Delete", this.addUser);
 	}
 
 }

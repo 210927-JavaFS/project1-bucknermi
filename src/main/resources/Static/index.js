@@ -1,6 +1,13 @@
 const URL = 'http://localhost:7000/';
 
+//PAGE ELEMENTS SECTION
+//******************************************************************** */
+//******************************************************************** */
+//******************************************************************** */
+
 //Login page elements
+//******************************************************************** */
+//******************************************************************** */
 let username = document.getElementById('username');
 let password = document.getElementById('password');
 let login = document.getElementById('loginButton');
@@ -8,6 +15,8 @@ let employeeLevel = document.getElementById('radio1');
 let managerLevel = document.getElementById('radio2');
 
 //Universal menu elements
+//******************************************************************** */
+//******************************************************************** */
 let containerIndex = document.getElementsByClassName('container')[0];
 let storedInfo = document.getElementsByClassName('storedInfo')[0];
 let navbar = document.getElementsByClassName('navbar')[0];
@@ -29,7 +38,9 @@ for (let i = 0; i < reimsTableHeaderArr.length; i++) {
 }
 var reimsTableBody = document.createElement('tbody');
 
-//Manager main menu elements
+//Manager menu elements
+//******************************************************************** */
+//******************************************************************** */
 let managerHomeButton = document.createElement('button');
 managerHomeButton.innerText = 'Home';
 managerHomeButton.className = 'button';
@@ -67,7 +78,9 @@ hiddenReimNum.id = 'hiddenReimNum';
 hiddenReimNum.innerText = '2';
 
 
-//Employee main menu elements
+//Employee menu elements
+//******************************************************************** */
+//******************************************************************** */
 let employeeHomeButton = document.createElement('button');
 employeeHomeButton.className = 'button';
 employeeHomeButton.innerText = 'Home';
@@ -138,50 +151,22 @@ hiddenUserId.id = 'hiddenUserId';
 hiddenUserId.innerText = '2';
 let reimbursementRadioTye = document.createElement('words');
 reimbursementRadioTye.innerText = 'Type: \n';
+let selectReimburesementTextEmployee = document.createElement('h4');
+selectReimburesementTextEmployee.innerText = 'Enter the Id of the reimbursement you would like to view closer: ';
+let selectButtonEmployee = document.createElement('button');
+selectButtonEmployee.className = 'button';
+selectButtonEmployee.innerText = 'Select reimbursement';
+let selectReimbursementEmployee = document.createElement('input');
+selectReimbursementEmployee.id = 'reimbursementId';
 
-
-//Login page functions
-logout.onclick = function () {
-  location.reload();
-  return false;
-}
-
-login.onclick = async function loginToApp() {
-  if (managerLevel.checked) {
-    var user = {
-      username: document.getElementById('username').value,
-      password: document.getElementById('password').value,
-      level: 'MANAGER'
-    }
-  }
-  else if (employeeLevel.checked) {
-    var user = {
-      username: document.getElementById('username').value,
-      password: document.getElementById('password').value,
-      level: 'EMPLOYEE'
-    }
-  }
-  else {
-    var user = {
-      
-    }
-  }
-
-  let response = await fetch(URL + 'Login', {
-    method: 'POST',
-    body: JSON.stringify(user),
-    credentials: 'include'
-  });
-
-  if (response.status === 200) {
-      loadLoginMenu();
-    }
-  else {
-   failure();
-  }
-}
+//FUNCTIONS SECTION
+//******************************************************************** */
+//******************************************************************** */
+//******************************************************************** */
 
 //Universal menu functions
+//******************************************************************** */
+//******************************************************************** */
 
 function loadLoginMenu(){
   if (employeeLevel.checked) {
@@ -195,7 +180,6 @@ function loadLoginMenu(){
   navbar.appendChild(logout);
   navbar.appendChild(managerHomeButton);
   }
-
 }
 
 function failure() {
@@ -288,6 +272,7 @@ function populateAllReimsTable(data) {
   reimsTable.appendChild(reimsTableBody);
 }
 
+
 function populateSingleReimTable(data) {
   reimsTableBody.innerHTML = '';
 
@@ -328,10 +313,15 @@ function populateSingleReimTable(data) {
     desc = desc.substring(0,50) + ' \n ' + desc.substring(50,desc.length);
     if(desc.length>100) {
       desc = desc.substring(0,100) + ' \n ' + desc.substring(100,desc.length);
+        if(desc.length>150) {
+      desc = desc.substring(0,150) + ' \n ' + desc.substring(150,desc.length);
+      if(desc.length>200) {
+        desc = desc.substring(0,200) + ' \n ' + desc.substring(200,desc.length);}
     }
     values[5] = desc;
+    }
+    
   }
-
 
   let author = Object.values(values[1]);
   let resolver = Object.values(values[2]);
@@ -358,7 +348,55 @@ function populateSingleReimTable(data) {
   reimsTable.appendChild(reimsTableBody);
 }
 
+//Login page functions
+//******************************************************************** */
+//******************************************************************** */
+
+logout.onclick = function () {
+  location.reload();
+  return false;
+}
+
+
+login.onclick = async function loginToApp() {
+  if (managerLevel.checked) {
+    var user = {
+      username: document.getElementById('username').value,
+      password: document.getElementById('password').value,
+      level: 'MANAGER'
+    }
+  }
+  else if (employeeLevel.checked) {
+    var user = {
+      username: document.getElementById('username').value,
+      password: document.getElementById('password').value,
+      level: 'EMPLOYEE'
+    }
+  }
+  else {
+    var user = {
+      
+    }
+  }
+
+  let response = await fetch(URL + 'Login', {
+    method: 'POST',
+    body: JSON.stringify(user),
+    credentials: 'include'
+  });
+
+  if (response.status === 200) {
+      loadLoginMenu();
+    }
+  else {
+   failure();
+  }
+}
+
+
 //Manager menu functions
+//******************************************************************** */
+//******************************************************************** */
 function managerMainMenu() {
   hiddenUsername.innerText = document.getElementById('username').value;
   hiddenPassword.innerText = document.getElementById('password').value
@@ -367,9 +405,9 @@ function managerMainMenu() {
   getManagerId();
   containerIndex.innerHTML = '';  
   containerIndex.appendChild(h3);
-  containerIndex.appendChild(viewRequests);
-  
+  containerIndex.appendChild(viewRequests);  
 }
+
 
 function managerMainMenuNav() {
   containerIndex.innerHTML = '';  
@@ -377,11 +415,13 @@ function managerMainMenuNav() {
   containerIndex.appendChild(viewRequests);
 }
 
+
 managerHomeButton.onclick = function () {
   containerIndex.innerHTML = '';  
   containerIndex.appendChild(h3);
   containerIndex.appendChild(viewRequests);
 }
+
 
 function managerReimMenu(data) {
   containerIndex.innerHTML = '';
@@ -393,8 +433,8 @@ function managerReimMenu(data) {
   containerIndex.appendChild(selectReimburesementText);
   containerIndex.appendChild(selectReimbursement);
   containerIndex.appendChild(selectButton);
- 
 }
+
 
 function managerResolveMenu(data, id) {
   containerIndex.innerHTML = '';
@@ -408,12 +448,16 @@ function managerResolveMenu(data, id) {
   hiddenReimNum.innerText = id;
 }
 
+
+//Manager onclick functions
+//******************************************************************** */
+//******************************************************************** */
+
 async function getManagerId() {
   var user = {
     username: document.getElementById('hiddenUsername').innerText,
     password: document.getElementById('hiddenPassword').innerText,
     level: 'MANAGER'
-
 }
 let response = await fetch(URL + 'ErsUser/Proxy', {
   method: 'POST',
@@ -433,7 +477,7 @@ else {
 }
 }
 
-//Manager onclick functions
+
 viewRequests.onclick = async function viewRequests() {
   let response = await fetch(URL + 'ErsReim', {
     method: 'GET',
@@ -449,6 +493,7 @@ viewRequests.onclick = async function viewRequests() {
   }
 }
 
+
 filterByPending.onclick = async function () {
   let response = await fetch(URL + 'ErsReim/False', {
     method: 'GET',
@@ -462,6 +507,7 @@ filterByPending.onclick = async function () {
     failure();
   }
 }
+
 
 filterByResolved.onclick = async function () {
   let response = await fetch(URL + 'ErsReim/True', {
@@ -477,6 +523,7 @@ filterByResolved.onclick = async function () {
   }
 }
 
+
 selectButton.onclick = async function () {
   let id = document.getElementById('reimbursementId').value;
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('reimbursementId').value, {
@@ -491,6 +538,7 @@ selectButton.onclick = async function () {
     failure();
   }
 }
+
 
 reimApproval.onclick = async function () {
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('hiddenReimNum').innerText, {
@@ -536,6 +584,7 @@ reimApproval.onclick = async function () {
 }
 }
 
+
 reimDenial.onclick = async function () {
   let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('hiddenReimNum').innerText, {
     method: 'GET',
@@ -578,7 +627,10 @@ reimDenial.onclick = async function () {
 }
 }
 
+
 //Employee Menu Functions
+//******************************************************************** */
+//******************************************************************** */
 
 function employeeMainMenu(){
   hiddenUsername.innerText = document.getElementById('username').value;
@@ -590,15 +642,18 @@ function employeeMainMenu(){
   containerIndex.appendChild(h3);
   containerIndex.appendChild(pastTicketsButton);
   containerIndex.appendChild(addReimRequestButton);
-
 }
+
 
 function employeePastRequestsMenu(data) {
   containerIndex.innerHTML = '';
   containerIndex.appendChild(reimsTable);
   populateAllReimsTable(data);
-
+  containerIndex.appendChild(selectReimburesementTextEmployee)
+  containerIndex.appendChild(selectButtonEmployee);
+  containerIndex.appendChild(selectReimbursementEmployee);
 }
+
 
 function employeeMainMenuNav(){
   containerIndex.innerHTML = '';
@@ -607,12 +662,14 @@ function employeeMainMenuNav(){
   containerIndex.appendChild(addReimRequestButton);
 }
 
+
 employeeHomeButton.onclick = function(){
   containerIndex.innerHTML = '';
   containerIndex.appendChild(h3);
   containerIndex.appendChild(pastTicketsButton);
   containerIndex.appendChild(addReimRequestButton);
 }
+
 
 addReimRequestButton.onclick = function createReimRequest(){
   containerIndex.innerHTML = '';
@@ -632,6 +689,18 @@ addReimRequestButton.onclick = function createReimRequest(){
   containerIndex.appendChild(descriptionInput);
   containerIndex.appendChild(requestSubmit);
 }
+
+
+function employeeResolveMenu(data) {
+  containerIndex.innerHTML = '';
+  containerIndex.appendChild(reimDetailMenu);
+  containerIndex.appendChild(reimsTable);
+  populateSingleReimTable(data);
+}
+
+//Employee onclick functions
+//******************************************************************** */
+//******************************************************************** */
 
 async function getUserId() {
   var user = {
@@ -658,6 +727,33 @@ else {
 }
 }
 
+
+selectButtonEmployee.onclick = async function () {
+  let response = await fetch(URL + 'ErsReim/Reim/' + document.getElementById('reimbursementId').value, {
+    method: 'GET',
+    credentials: 'include'
+  })
+  if (response.status == 200) {
+    let proxy = await response.json();
+    let values = Object.values(proxy);
+    let id = values[1].user_id;
+    console.log(id);
+    console.log(values);
+    console.log(document.getElementById('hiddenUserId').innerText);
+  
+
+    if(id == document.getElementById('hiddenUserId').innerText) {
+    employeeResolveMenu(proxy);}
+    else{
+      failure();
+    }
+  }
+  else {
+    failure();
+  }
+}
+
+
 pastTicketsButton.onclick = async function(){
   let userId = document.getElementById('hiddenUserId').innerText;
   let response1 = await fetch(URL + 'ErsReim/User/' +userId, {
@@ -674,14 +770,30 @@ else {
 }
 }
 
+
 requestSubmit.onclick = async function() {
+  let x = "OTHER";
+  if (travelRadio.checked) {
+    x = "TRAVEL";
+  }
+  else if (foodRadio.checked) {
+    x = "FOOD";
+  }
+  else if (lodgingRadio.checked) {
+    x = "LODGING";
+  }
+  else {}
+  let y =  document.getElementById('amountInput').value;
+  y = Number(y).toFixed(2);
+  z = Number(y);
+
   let request = {
     author: {
       user_id: document.getElementById('hiddenUserId').innerText
   },
   resolver: null,
-  reimbursementType: null,
-  amount: document.getElementById('amountInput').value,
+  reimbursementType: x,
+  amount: z,
   description: document.getElementById('descriptionInput').value,
   resolved: false,
   accepted: false
@@ -698,7 +810,6 @@ requestSubmit.onclick = async function() {
   else {
     failure();
   }
-
 }
 
 

@@ -10,7 +10,7 @@ public interface ErsUserDao {
 	
 	public boolean addUser(ErsUser eu);
 	
-	
+	public boolean deleteUser(ErsUser eu);
 	
 	
 

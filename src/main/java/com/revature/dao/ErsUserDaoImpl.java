@@ -26,7 +26,6 @@ public class ErsUserDaoImpl implements ErsUserDao {
 					return eu1;
 		}else {
 		ErsUser eu = eus.get(0);
-		System.out.println(eu.toString());
 		return eu;}
 		
 
@@ -38,6 +37,9 @@ public class ErsUserDaoImpl implements ErsUserDao {
 			Session session = ConfigUtil.getSession();
 			Transaction tx;
 			tx = session.beginTransaction();
+			int username = eu.getPassword().hashCode();
+			String newusername = String.valueOf(username);
+			eu.setPassword(newusername);
 			session.save(eu);
 			tx.commit();
 			return true;
@@ -49,6 +51,19 @@ public class ErsUserDaoImpl implements ErsUserDao {
 
 	}
 
-
+	@Override
+	public boolean deleteUser(ErsUser eu) {
+		try {
+			Session session = ConfigUtil.getSession();
+			Transaction tx;
+			tx = session.beginTransaction();
+			session.delete(eu);
+			tx.commit();
+			return true;
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		return false;
+	}
 	
+}
 }

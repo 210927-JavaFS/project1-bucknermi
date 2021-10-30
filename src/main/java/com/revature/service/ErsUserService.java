@@ -13,11 +13,16 @@ public class ErsUserService {
 		return eud.addUser(eu);
 	}
 	
+	public boolean deleteUserServ(ErsUser eu) {
+		return eud.deleteUser(eu);
+	}
+	
 	public boolean loginServ(UserDTO ud) {
 	ErsUser eu = eud.accountByLogin(ud.username, ud.level);
 	
-		
-		if(eu!=null && ud.password.equals(eu.getPassword())) {
+		int password = ud.password.hashCode();
+		String password1 = String.valueOf(password);
+		if(eu!=null && password1.equals(eu.getPassword())) {
 			
 			return true;
 		}

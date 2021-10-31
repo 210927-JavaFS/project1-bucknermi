@@ -18,7 +18,7 @@ import com.revature.dao.model.UserDTO;
 import com.revature.dao.model.ErsUser.UserRole;
 import com.revature.service.ErsUserService;
 
-import jdk.internal.org.jline.utils.Log;
+
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)

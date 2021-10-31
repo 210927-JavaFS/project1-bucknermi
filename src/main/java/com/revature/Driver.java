@@ -16,7 +16,7 @@ public class Driver {
 			config.addStaticFiles("/Static", Location.CLASSPATH);
 		});
 		configure(new ReimController(), new ErsUserController());
-		app.start();
+		app.start("18.223.29.20",7000);
 	}
 	
 	public static void configure(Controller...controllers) {

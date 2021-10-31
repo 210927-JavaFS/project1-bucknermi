@@ -1,4 +1,4 @@
-package com.revature.Driver;
+package com.revature;
 
 import com.revature.controller.Controller;
 import com.revature.controller.ErsUserController;
@@ -7,7 +7,7 @@ import com.revature.controller.ReimController;
 import io.javalin.Javalin;
 import io.javalin.http.staticfiles.Location;
 
-public class App {
+public class Driver {
 	
 	private static Javalin app;
 	public static void main(String[] args) {

@@ -1,29 +1,31 @@
 package com.revature;
 
-import java.util.List;
+import com.revature.controller.Controller;
+import com.revature.controller.ErsUserController;
+import com.revature.controller.ReimController;
 
-import com.revature.dao.ErsReimDao;
-import com.revature.dao.ErsReimDaoImpl;
-import com.revature.dao.ErsUserDao;
-import com.revature.dao.ErsUserDaoImpl;
-import com.revature.dao.model.ErsReim;
-import com.revature.dao.model.ErsUser;
-import com.revature.dao.model.ErsReim.ReimbursementType;
+import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 
 public class Driver {
 	
-	
-	
+	private static Javalin app;
 	public static void main(String[] args) {
-		ErsUser eu = new ErsUser();
-		ErsReim er1 = new ErsReim(1, eu, eu, ReimbursementType.FOOD, 12, "hehe", false, false);
-		ErsReimDao erd = new ErsReimDaoImpl();
-		erd.addReim(er1);
-		List<ErsReim> reims = erd.getAllByFalse();
-		for(ErsReim er : reims) {
-			System.out.println(er.toString());
-		}
 		
+		app = Javalin.create((config)->{
+			config.addStaticFiles("/Static", Location.CLASSPATH);
+		});
+		configure(new ReimController(), new ErsUserController());
+		app.start();
 	}
+	
+	public static void configure(Controller...controllers) {
+		for(Controller c: controllers) {
+			c.addRoutes(app);
+		}
+	}
+	
+	
+	
 
 }

@@ -1,4 +1,4 @@
-const URL = 'http://18.223.29.20:7000/';
+const URL = 'http://project1-bucknermi.s3-website.us-east-2.amazonaws.com/';
 
 //PAGE ELEMENTS SECTION
 //******************************************************************** */

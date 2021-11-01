@@ -15,6 +15,8 @@ public class Driver {
 		app = Javalin.create((config)->{
 			config.addStaticFiles("/Static", Location.CLASSPATH);
 		});
+		app.before(ctx->ctx.header("Access-Control-Allow-Origin", "http://project1-bucknermi.s3-website.us-east-2.amazonaws.com"));
+		app.before(ctx -> ctx.header("Access-Control-Allow-Credentials", "true"));
 		configure(new ReimController(), new ErsUserController());
 		app.start();
 	}

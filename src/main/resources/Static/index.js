@@ -785,6 +785,10 @@ requestSubmit.onclick = async function() {
   }
   else {}
   let y =  document.getElementById('amountInput').value;
+  if (isNaN(y) || y < 0) {
+    failure()
+  }
+  else {
   y = Number(y).toFixed(2);
   z = Number(y);
 
@@ -810,7 +814,7 @@ requestSubmit.onclick = async function() {
   }
   else {
     failure();
-  }
+  }}
 }
 
 

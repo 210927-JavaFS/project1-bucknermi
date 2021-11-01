@@ -22,14 +22,14 @@ import com.revature.service.ErsUserService;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
-public class ErsUserTester {
+public class ErsUserTest {
 	
 	ErsUserService eus = new ErsUserService();
 	ErsUser eu = new ErsUser("test", "test", "test", "test", "test",
 			UserRole.EMPLOYEE);
 	UserDTO ud = new UserDTO(eu.getUsername(), eu.getPassword(), eu.getUserRole().toString());
 	
-	private static Logger log = LoggerFactory.getLogger(ErsUserTester.class);
+	private static Logger log = LoggerFactory.getLogger(ErsUserTest.class);
 
 	
 	

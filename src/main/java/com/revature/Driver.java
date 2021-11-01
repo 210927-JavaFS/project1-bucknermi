@@ -18,7 +18,7 @@ public class Driver {
 		app.before(ctx->ctx.header("Access-Control-Allow-Origin", "http://project1-bucknermi.s3-website.us-east-2.amazonaws.com"));
 		app.before(ctx -> ctx.header("Access-Control-Allow-Credentials", "true"));
 		app.before(ctx -> ctx.header("Access-Control-Allow-Headers", "Content-Type, Authorization"));
-		app.before(ctx -> ctx.header("Set-Cookie", "Expires = Thu, 01 Jan 2030 00:00:00 GMT"));
+		app.before(ctx -> ctx.header("Set-Cookie", "Same-Site=None; Not Secure"));
 		configure(new ReimController(), new ErsUserController());
 		app.start();
 	}

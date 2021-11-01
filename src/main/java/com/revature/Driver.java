@@ -15,7 +15,6 @@ public class Driver {
 		app = Javalin.create((config)->{
 			config.addStaticFiles("/Static", Location.CLASSPATH);
 		});
-		app.before(ctx->ctx.header("Access-Control-Allow-Origin", "http://project1-bucknermi.s3-website.us-east-2.amazonaws.com"));
 		app.before(ctx->ctx.header("Access-Control-Allow-Origin", "https://d1lp0pkoyo8yrg.cloudfront.net/"));
 		app.before(ctx -> ctx.header("Access-Control-Allow-Credentials", "true"));
 		app.before(ctx -> ctx.header("Set-Coookie", "sameSite=none; Secure"));

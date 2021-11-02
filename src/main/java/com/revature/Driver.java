@@ -17,6 +17,8 @@ public class Driver {
 		});
 		app.before(ctx->ctx.header("Access-Control-Allow-Origin", "http://project1-bucknermi.s3-website.us-east-2.amazonaws.com"));
 		app.before(ctx -> ctx.header("Access-Control-Allow-Credentials", "true"));
+		app.before(ctx -> ctx.header("Access-Control-Allow-Methods", "GET, POST"));
+		app.before(ctx -> ctx.header("Access-Control-Allow-Headers", "Content-Type, *"));
 		configure(new ReimController(), new ErsUserController());
 		app.start();
 	}

@@ -37,18 +37,17 @@ To-do list:
 ## Getting Started
    
 
-> Clone project onto local machine using git clone https://github.com/210927-JavaFS/project1-bucknermi.git 
-> Open project in IDE (Spring Tool Suite, Eclipse, VSCode etc.)
-> Navigate to src/main/resources/hibernate.cfg.xml
-> Configure endpoints (i.e. hibernate.connection.url) to match your RDS database so that hibernate can create a database when the application is run
-> Run the Driver class as Java application
-> Navigate to the url: http:localhost:7000.index.html
+* Clone project onto local machine using git clone https://github.com/210927-JavaFS/project1-bucknermi.git 
+* Navigate to src/main/resources/hibernate.cfg.xml
+* Configure endpoints (i.e. hibernate.connection.url) to match your RDS database so that hibernate can create a database when the application is run
+* Run the Driver class as Java application
+* Navigate to the url: http:localhost:7000.index.html
 
 
 ## Usage
-> Create users and employees to use in your RDS
-> Login at http:localhost:7000.index.html to access employee and manager features
-> Use application to create/review reimbursement requests
+* Create users and employees to use in your RDS
+* Login at http:localhost:7000.index.html to access employee and manager features
+* Use application to create/review reimbursement requests
 
 
 ## Contributors
